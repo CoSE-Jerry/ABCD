@@ -192,7 +192,7 @@ class Ui_MainWindow(object):
         self.Frequency_High.setObjectName("Frequency_High")
         self.horizontalLayout_6.addWidget(self.Frequency_High)
         self.Email_Update_Prompt = QtWidgets.QLabel(self.Cloud)
-        self.Email_Update_Prompt.setGeometry(QtCore.QRect(40, 310, 171, 20))
+        self.Email_Update_Prompt.setGeometry(QtCore.QRect(40, 310, 361, 20))
         self.Email_Update_Prompt.setObjectName("Email_Update_Prompt")
         self.Control_Tab.addTab(self.Cloud, "")
         self.Start_Imaging = QtWidgets.QCommandLinkButton(self.centralwidget)
