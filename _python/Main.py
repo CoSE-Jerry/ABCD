@@ -309,12 +309,6 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_MainWindow):
         else:
             self.Start_Imaging.setEnabled(False)
             self.Dropbox_Confirm.setEnabled(False)
-<<<<<<< HEAD
-            
-=======
-            self.Cloud_Sync.setEnabled(False)
-
->>>>>>> a03a3b981271bab7d6ce6829f83f039df4670aca
 
     def Email_Entered(self):
         global email, total
