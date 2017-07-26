@@ -11,7 +11,6 @@ from PyQt5.QtWidgets import QApplication
 from PyQt5.QtCore import QThread
 from PyQt5.QtWidgets import *
 
-directory = None
 # This is our window from QtCreator
 import ABCD_UI
 
@@ -208,9 +207,9 @@ class MainWindow(QMainWindow, FlashLapse_UI.Ui_MainWindow):
             self.Progress_Bar.setMaximum(total)
             
             if (self.JPG.isChecked()):
-                file = directory + "/" +name + "_%04d.jpg"
+                file = "../_temp/" +name + "_%04d.jpg"
             else:
-                file = directory + "/" +name + "_%04d.png"
+                file = "../_temp/" +name + "_%04d.png"
             self.Image_Thread.started.connect(lambda: self.Start_Image())
             #self.Image_Thread.finished.connect(lambda: self.Image_Complete())
             self.Image_Thread.capture.connect(lambda: self.Progress())
@@ -230,7 +229,6 @@ class MainWindow(QMainWindow, FlashLapse_UI.Ui_MainWindow):
             self.ICI_spinBox.setEnabled(True)
             self.ISD_spinBox.setEnabled(True)
             self.Live_Feed.setEnabled(True)
-            self.Storage_Directory.setEnabled(True)
             self.Snapshot.setEnabled(True)
             self.JPG.setEnabled(True)
             self.PNG.setEnabled(True)
@@ -275,7 +273,7 @@ class MainWindow(QMainWindow, FlashLapse_UI.Ui_MainWindow):
         else:
             self.Dropbox_Confirm.setEnabled(False)
             self.Cloud_Sync.setEnabled(False)
-            self.Local_Storage.setChecked(True)
+
 
     def Email_Entered(self):
         global email
