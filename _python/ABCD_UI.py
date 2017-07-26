@@ -184,7 +184,7 @@ class Ui_MainWindow(object):
         self.Frequency_Average = QtWidgets.QRadioButton(self.horizontalLayoutWidget)
         self.Frequency_Average.setEnabled(False)
         self.Frequency_Average.setCheckable(True)
-        self.Frequency_Average.setChecked(False)
+        self.Frequency_Average.setChecked(True)
         self.Frequency_Average.setObjectName("Frequency_Average")
         self.horizontalLayout_6.addWidget(self.Frequency_Average)
         self.Frequency_High = QtWidgets.QRadioButton(self.horizontalLayoutWidget)
