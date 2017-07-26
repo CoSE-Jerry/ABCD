@@ -38,11 +38,13 @@ current_image = None
 file = None
 name = None
 on_flag = False
+half_flag = None
 
 class Image(QThread):
 
     done = QtCore.pyqtSignal()
     capture = QtCore.pyqtSignal()
+    half = QtCore.pyqtSignal()
     def __init__(self):
         QThread.__init__(self)
 
@@ -50,7 +52,7 @@ class Image(QThread):
         self._running = False
 
     def run(self):
-        global current, current_image, file_list
+        global current, current_image, file_list, total
         for i in range(total):
             current = i
             sleep(0.2)
@@ -62,6 +64,8 @@ class Image(QThread):
                 camera.capture(current_image)
             file_list.append(current_image)
             self.capture.emit()
+            if(current == int(total/2)):
+                self.half.emit()
             sleep(interval-1)
         self.done.emit()
     def stop(self):
@@ -76,7 +80,7 @@ class Dropbox(QThread):
     def __del__(self):
         self._running = False
 
-    def run(self):  
+    def run(self):
         global file_list, name, link
 
         os.system("/home/pi/Dropbox-Uploader/dropbox_uploader.sh mkdir /" + name)
@@ -86,6 +90,7 @@ class Dropbox(QThread):
         while True:
             if (len(file_list) > 0):
                 os.system("/home/pi/Dropbox-Uploader/dropbox_uploader.sh upload " + file_list[0] + " /"+name)
+                os.system("rm " + file_list[0])
                 del file_list[0]
             if(current == total - 1 and len(file_list) == 0):
                 self.upload_complete.emit()
@@ -99,7 +104,9 @@ class Email(QThread):
         self._running = False
 
     def run(self):
-        global link, current, total
+        sys.path.insert(0,'../../HP')
+        import Email
+        global link, current, total, half_flag, name
         fromaddr = "notification_noreply@flashlapseinnovations.com"
         toaddr = email
         msg = MIMEMultipart()
@@ -107,25 +114,32 @@ class Email(QThread):
         msg['To'] = toaddr
         msg['Subject'] = "FLASHLAPSE NOTIFICATION"
 
-
-        if (current == 0):
+        if (half_flag == None):
             sleep(5)
             print(link)
-            body = "Hi " + email.split("\\")[0] + "! \n" "Here is your " + link
+            body = "Hi " + email.split("@")[0] + "! \n\n" "Your Flashlapse image sequence "+name+" has been initiated, check it out here.\n" + link + "\n\nTeam Flashlapse"
             msg.attach(MIMEText(body, 'plain'))
+        elif(half_flag == False):
+            body = "Hi " + email.split("@")[0] + "! \n\n" "Your Flashlapse image sequence "+name+" is 50% complete, check it out here.\n" + link + "\n\nTeam Flashlapse"
+            msg.attach(MIMEText(body, 'plain'))
+            half_flag = True
+        else:
+            body = "Hi " + email.split("@")[0] + "! \n\n" "Your Flashlapse image sequence "+name+" is complete, check it out here.\n" + link + "\n\nTeam Flashlapse"
+            msg.attach(MIMEText(body, 'plain'))
+            half_flag = None
 
         server = smtplib.SMTP('email-smtp.us-east-1.amazonaws.com', 587)
         server.ehlo()
         server.starttls()
         server.ehlo()
-        server.login("AKIAJA4ENXXLDIF6PCAA", "AqKdU1VP1ynuFNtB7fhJuV9BRe/onu4CWrp0P6MCFapm")
+        server.login(Email.user, Email.password)
         text = msg.as_string()
         server.sendmail(fromaddr, toaddr, text)
            
 
 
 # create class for our Raspberry Pi GUI
-class MainWindow(QMainWindow, FlashLapse_UI.Ui_MainWindow):
+class MainWindow(QMainWindow, ABCD_UI.Ui_MainWindow):
  # access variables inside of the UI's file
 
     def IST_Edit(self):
@@ -133,31 +147,44 @@ class MainWindow(QMainWindow, FlashLapse_UI.Ui_MainWindow):
         name = self.IST_Editor.text()
         
     def IST_Change(self):
+        global interval, duration, total, email, name
         self.ICI_spinBox.setEnabled(True)
-        if(len(self.IST_Editor.text())==0):
-            self.ICI_spinBox.setEnabled(False)
-            self.ISD_spinBox.setEnabled(False)
+        temp = self.IST_Editor.text()
+        
+        if(len(temp)==0):
             self.Start_Imaging.setEnabled(False)
+            name=""
+            
+        if(interval!= 0):
+            total = int((duration*60)/interval)
+            if(total>0 and len(email) > 0 and len(temp) > 0):
+                self.Start_Imaging.setEnabled(True)
+            else:
+                self.Start_Imaging.setEnabled(False)
+        
         
     def ICI_Change(self):
-        global interval, duration, total
+        global interval, duration, total, email, name
         interval = self.ICI_spinBox.value()
         self.ISD_spinBox.setEnabled(True)
         if(interval == 0):
             self.ISD_spinBox.setEnabled(False)
-        if(interval!= 0):
+            self.Start_Imaging.setEnabled(False)
+        else:
             total = int((duration*60)/interval)
-            if(total>0):
+            if(total>0 and len(email) > 0 and len(name) > 0):
                 self.Start_Imaging.setEnabled(True)
             else:
                 self.Start_Imaging.setEnabled(False)
                 
     def ISD_Change(self):
-        global interval, duration, total
+        global interval, duration, total, email, name
         duration = self.ISD_spinBox.value()
+        if(duration == 0):
+            self.Start_Imaging.setEnabled(False)
         if(interval!= 0):
             total = int((duration*60)/interval)
-            if(total>0):
+            if(total>0 and len(email) > 0 and len(name) > 0):
                 self.Start_Imaging.setEnabled(True)
             else:
                 self.Start_Imaging.setEnabled(False)
@@ -195,6 +222,13 @@ class MainWindow(QMainWindow, FlashLapse_UI.Ui_MainWindow):
         self.Live_Feed.setEnabled(True)
         self.Start_Imaging.setEnabled(True)
         self.Live_Feed.setText("Start Live Feed (30s)")
+
+    def Half_Notif(self):
+        global half_flag
+        half_flag = False
+        self.Email_Thread = Email()
+        self.Email_Thread.start()
+        
         
     def Begin_Imaging(self):
         global jpg, name, duration, interval, total, file, on_flag, file_list
@@ -211,19 +245,17 @@ class MainWindow(QMainWindow, FlashLapse_UI.Ui_MainWindow):
             else:
                 file = "../_temp/" +name + "_%04d.png"
             self.Image_Thread.started.connect(lambda: self.Start_Image())
-            #self.Image_Thread.finished.connect(lambda: self.Image_Complete())
+            self.Image_Thread.finished.connect(lambda: self.Done())
             self.Image_Thread.capture.connect(lambda: self.Progress())
-            self.Image_Thread.done.connect(lambda: self.Done())
+            self.Image_Thread.half.connect(lambda: self.Half_Notif())
 
             self.Image_Thread.start()
-
-            if(self.Cloud_Sync.isChecked()):
-                self.Dropbox_Thread.start()
-                #self.Email_Thread.start()
-
+            self.Dropbox_Thread.start()
+            self.Email_Thread.start()
             on_flag = True
         
         else:
+            half_flag = None
             self.Image_Thread.terminate()
             self.IST_Editor.setEnabled(True)
             self.ICI_spinBox.setEnabled(True)
@@ -250,7 +282,8 @@ class MainWindow(QMainWindow, FlashLapse_UI.Ui_MainWindow):
             on_flag = False
 
     def Done(self):
-        self.Image_Thread.terminate()
+        self.Email_Thread = Email()
+        self.Email_Thread.start()
         self.Start_Imaging.setText("Start Another Sequence")
         icon3 = QtGui.QIcon()
         icon3.addPixmap(QtGui.QPixmap("../_image/Start-icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -260,25 +293,31 @@ class MainWindow(QMainWindow, FlashLapse_UI.Ui_MainWindow):
         global current, current_image
         self.Progress_Bar.setValue(current+1)
         self.Image_Frame.setPixmap(QtGui.QPixmap(current_image))
-        #print(current)
 
     def Email_Change(self):
+        global email
         match =None
         import re
         temp_email = self.Dropbox_Email.text()
+        if (len(temp_email)==0):
+            self.Start_Imaging.setEnabled(False)
+            email=""
         if (len(temp_email)) > 7:
             match = re.match('^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$', temp_email)
         if (match != None):
             self.Dropbox_Confirm.setEnabled(True)
         else:
+            self.Start_Imaging.setEnabled(False)
             self.Dropbox_Confirm.setEnabled(False)
-            self.Cloud_Sync.setEnabled(False)
-
 
     def Email_Entered(self):
-        global email
+        global email, total
         email = self.Dropbox_Email.text()
-        self.Cloud_Sync.setEnabled(True)
+        if(total>0 and len(email) > 0):
+            self.Start_Imaging.setEnabled(True)
+        else:
+            self.Start_Imaging.setEnabled(False)
+        
             
     def Start_Image(self):
                 
@@ -311,12 +350,8 @@ class MainWindow(QMainWindow, FlashLapse_UI.Ui_MainWindow):
             s = socket.create_connection((host, 80), 2)
         except:
             pass
-            self.Service_Select.setEnabled(False)
-            self.Frequency_Off.setEnabled(False)
-            self.Frequency_Low.setEnabled(False)
-            self.Frequency_Average.setEnabled(False)
-            self.Frequency_High.setEnabled(False)
-
+            sys.exit()
+        
     def __init__(self):
         super(self.__class__, self).__init__()
         self.setupUi(self) # gets defined in the UI file
