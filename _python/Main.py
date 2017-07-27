@@ -239,13 +239,11 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_MainWindow):
     def Processing_Live(self):
         self.Snapshot.setEnabled(False)
         self.Live_Feed.setEnabled(False)
-        self.Start_Imaging.setEnabled(False)
         self.Live_Feed.setText("Processing...")
         
     def Live_Complete(self):
         self.Snapshot.setEnabled(True)
         self.Live_Feed.setEnabled(True)
-        self.Start_Imaging.setEnabled(True)
         self.Live_Feed.setText("Start Live Feed (30s)")
         
     def Begin_Imaging(self):
