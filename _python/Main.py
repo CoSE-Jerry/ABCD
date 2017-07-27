@@ -247,13 +247,6 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_MainWindow):
         self.Live_Feed.setEnabled(True)
         self.Start_Imaging.setEnabled(True)
         self.Live_Feed.setText("Start Live Feed (30s)")
-
-    def Half_Notif(self):
-        global half_flag
-        half_flag = False
-        self.Email_Thread = Email()
-        self.Email_Thread.start()
-        
         
     def Begin_Imaging(self):
         global jpg, name, duration, interval, total, file, on_flag, file_list
@@ -272,7 +265,6 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_MainWindow):
             self.Image_Thread.started.connect(lambda: self.Start_Image())
             self.Image_Thread.finished.connect(lambda: self.Done())
             self.Image_Thread.capture.connect(lambda: self.Progress())
-            self.Image_Thread.half.connect(lambda: self.Half_Notif())
 
             self.Image_Thread.start()
             self.Dropbox_Thread.start()
@@ -280,7 +272,6 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_MainWindow):
             on_flag = True
         
         else:
-            half_flag = None
             self.Image_Thread.terminate()
             self.IST_Editor.setEnabled(True)
             self.ICI_spinBox.setEnabled(True)
