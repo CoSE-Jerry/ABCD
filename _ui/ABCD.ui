@@ -400,7 +400,7 @@
        <item>
         <widget class="QRadioButton" name="Frequency_Off">
          <property name="enabled">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
          <property name="text">
           <string>OFF</string>
@@ -416,7 +416,7 @@
        <item>
         <widget class="QRadioButton" name="Frequency_Low">
          <property name="enabled">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
          <property name="text">
           <string>LOW</string>
@@ -426,7 +426,7 @@
        <item>
         <widget class="QRadioButton" name="Frequency_Average">
          <property name="enabled">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
          <property name="text">
           <string>AVERAGE</string>
@@ -442,7 +442,7 @@
        <item>
         <widget class="QRadioButton" name="Frequency_High">
          <property name="enabled">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
          <property name="text">
           <string>HIGH</string>
@@ -525,7 +525,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>19</height>
     </rect>
    </property>
   </widget>
