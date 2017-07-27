@@ -34,17 +34,22 @@ interval = 0
 duration = 0
 total = 0
 current = 0
+noti_count = 0
 current_image = None
 file = None
 name = None
 on_flag = False
-half_flag = None
+off = False
+low = False
+done = False
+average = False
+high = False
 
 class Image(QThread):
 
     done = QtCore.pyqtSignal()
     capture = QtCore.pyqtSignal()
-    half = QtCore.pyqtSignal()
+    check_point = QtCore.pyqtSignal()
     def __init__(self):
         QThread.__init__(self)
 
@@ -64,8 +69,8 @@ class Image(QThread):
                 camera.capture(current_image)
             file_list.append(current_image)
             self.capture.emit()
-            if(current == int(total/2)):
-                self.half.emit()
+            if(current%(0.1*total)==0):
+                self.check_point.emit()
             sleep(interval-1)
         self.done.emit()
     def stop(self):
@@ -106,7 +111,8 @@ class Email(QThread):
     def run(self):
         sys.path.insert(0,'../../HP')
         import Email
-        global link, current, total, half_flag, name
+        global link, current, total, noti_count, off, low, average, high, done
+        body = None
         fromaddr = "notification_noreply@flashlapseinnovations.com"
         toaddr = email
         msg = MIMEMultipart()
@@ -114,27 +120,46 @@ class Email(QThread):
         msg['To'] = toaddr
         msg['Subject'] = "FLASHLAPSE NOTIFICATION"
 
-        if (half_flag == None):
-            sleep(5)
-            print(link)
-            body = "Hi " + email.split("@")[0] + "! \n\n" "Your Flashlapse image sequence "+name+" has been initiated, check it out here.\n" + link + "\n\nTeam Flashlapse"
-            msg.attach(MIMEText(body, 'plain'))
-        elif(half_flag == False):
-            body = "Hi " + email.split("@")[0] + "! \n\n" "Your Flashlapse image sequence "+name+" is 50% complete, check it out here.\n" + link + "\n\nTeam Flashlapse"
-            msg.attach(MIMEText(body, 'plain'))
-            half_flag = True
+        if (current == 0):
+            sleep(1)     
         else:
+            if(noti_count == 0):
+                body = "Hi " + email.split("@")[0] + "! \n\n" "Your Flashlapse image sequence "+name+" has been initiated, check it out here.\n" + link + "\n\nTeam Flashlapse"
+            elif(noti_count == 1 and high):
+                body = "Hi " + email.split("@")[0] + "! \n\n" "Your Flashlapse image sequence "+name+" is 10% complete, check it out here.\n" + link + "\n\nTeam Flashlapse"
+            elif(noti_count == 2 and (high or average)):
+                body = "Hi " + email.split("@")[0] + "! \n\n" "Your Flashlapse image sequence "+name+" is 20% complete, check it out here.\n" + link + "\n\nTeam Flashlapse"
+            elif(noti_count == 3 and high):
+                body = "Hi " + email.split("@")[0] + "! \n\n" "Your Flashlapse image sequence "+name+" is 30% complete, check it out here.\n" + link + "\n\nTeam Flashlapse"
+            elif(noti_count == 4 and (high or average)):
+                body = "Hi " + email.split("@")[0] + "! \n\n" "Your Flashlapse image sequence "+name+" is 40% complete, check it out here.\n" + link + "\n\nTeam Flashlapse"
+            elif(noti_count == 5 and ((off == False) and average == False)):
+                body = "Hi " + email.split("@")[0] + "! \n\n" "Your Flashlapse image sequence "+name+" is 50% complete, check it out here.\n" + link + "\n\nTeam Flashlapse"
+            elif(noti_count == 6 and (high or average)):
+                body = "Hi " + email.split("@")[0] + "! \n\n" "Your Flashlapse image sequence "+name+" is 60% complete, check it out here.\n" + link + "\n\nTeam Flashlapse"
+            elif(noti_count == 7 and high):
+                body = "Hi " + email.split("@")[0] + "! \n\n" "Your Flashlapse image sequence "+name+" is 70% complete, check it out here.\n" + link + "\n\nTeam Flashlapse"
+            elif(noti_count == 8 and (high or average)):
+                body = "Hi " + email.split("@")[0] + "! \n\n" "Your Flashlapse image sequence "+name+" is 80% complete, check it out here.\n" + link + "\n\nTeam Flashlapse"
+            elif(noti_count == 9 and high):
+                body = "Hi " + email.split("@")[0] + "! \n\n" "Your Flashlapse image sequence "+name+" is 90% complete, check it out here.\n" + link + "\n\nTeam Flashlapse"
+                
+            noti_count += 1
+            
+        if(done):
             body = "Hi " + email.split("@")[0] + "! \n\n" "Your Flashlapse image sequence "+name+" is complete, check it out here.\n" + link + "\n\nTeam Flashlapse"
-            msg.attach(MIMEText(body, 'plain'))
-            half_flag = None
+            done = False
 
-        server = smtplib.SMTP('email-smtp.us-east-1.amazonaws.com', 587)
-        server.ehlo()
-        server.starttls()
-        server.ehlo()
-        server.login(Email.user, Email.password)
-        text = msg.as_string()
-        server.sendmail(fromaddr, toaddr, text)
+        if(body != None):
+            msg.attach(MIMEText(body, 'plain'))
+            server = smtplib.SMTP('email-smtp.us-east-1.amazonaws.com', 587)
+            server.ehlo()
+            server.starttls()
+            server.ehlo()
+            server.login(Email.user, Email.password)
+            text = msg.as_string()
+            server.sendmail(fromaddr, toaddr, text)
+        
            
 
 
@@ -282,8 +307,11 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_MainWindow):
             on_flag = False
 
     def Done(self):
-        self.Email_Thread = Email()
-        self.Email_Thread.start()
+        global done
+        print("done")
+        self.Image_Thread.terminate()
+        done=True
+        self.Check_Point()
         self.Start_Imaging.setText("Start Another Sequence")
         icon3 = QtGui.QIcon()
         icon3.addPixmap(QtGui.QPixmap("../_image/Start-icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
