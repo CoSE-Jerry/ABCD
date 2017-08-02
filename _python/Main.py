@@ -250,7 +250,7 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_MainWindow):
         self.Email_Thread = Email()
         self.Email_Thread.start()
         
-    def Begin_Imaging(self):
+    def Begin_Imaging(self): 
         global jpg, name, duration, interval, total, file, on_flag, file_list
         
         if (on_flag == False): 
@@ -267,6 +267,7 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_MainWindow):
             self.Image_Thread.started.connect(lambda: self.Start_Image())
             self.Image_Thread.finished.connect(lambda: self.Done())
             self.Image_Thread.capture.connect(lambda: self.Progress())
+            self.Image_Thread.check_point.connect(lambda: self.Check_Point())
 
             self.Image_Thread.start()
             self.Dropbox_Thread.start()
@@ -341,6 +342,7 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_MainWindow):
         
             
     def Start_Image(self):
+        global off, low, average, high
                 
         self.IST_Editor.setEnabled(False)
         self.ICI_spinBox.setEnabled(False)
@@ -357,6 +359,11 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_MainWindow):
         self.Frequency_Low.setEnabled(False)
         self.Frequency_Average.setEnabled(False)
         self.Frequency_High.setEnabled(False)
+
+        off= self.Frequency_Off.isChecked()
+        low = self.Frequency_Low.isChecked()
+        average = self.Frequency_Average.isChecked()
+        high = self.Frequency_High.isChecked()
         
         icon2 = QtGui.QIcon()
         icon2.addPixmap(QtGui.QPixmap("../_image/Stop-icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
