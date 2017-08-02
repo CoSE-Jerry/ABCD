@@ -334,6 +334,7 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_MainWindow):
             match = re.match('^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$', temp_email)
         if (match != None):
             self.Dropbox_Confirm.setEnabled(True)
+            self.Start_Imaging.setEnabled(False)
         else:
             self.Dropbox_Confirm.setEnabled(False)
 
