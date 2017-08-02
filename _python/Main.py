@@ -339,14 +339,14 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_MainWindow):
 
     def Email_Entered(self):
         global email
+        email = self.Dropbox_Email.text()
         if(interval!= 0):
             total = int((duration*60)/interval)
             if(total>0 and len(email) != 0):
                 self.Start_Imaging.setEnabled(True)
             else:
                 self.Start_Imaging.setEnabled(False)
-        email = self.Dropbox_Email.text()
-            
+        
     def Start_Image(self):
         global off, low, average, high
         
