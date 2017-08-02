@@ -74,7 +74,6 @@ class Image(QThread):
             file_list.append(current_image)
             if(current%(0.1*total)==0):
                 self.check_point.emit()
-            
     def stop(self):
         self.running = False
 
@@ -186,7 +185,7 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_MainWindow):
             self.ISD_spinBox.setEnabled(False)
         if(interval!= 0):
             total = int((duration*60)/interval)
-            if(total>0):
+            if(total>0 and len(email) != 0):
                 self.Start_Imaging.setEnabled(True)
             else:
                 self.Start_Imaging.setEnabled(False)
@@ -196,7 +195,7 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_MainWindow):
         duration = self.ISD_spinBox.value()
         if(interval!= 0):
             total = int((duration*60)/interval)
-            if(total>0):
+            if(total>0 and len(email) != 0):
                 self.Start_Imaging.setEnabled(True)
             else:
                 self.Start_Imaging.setEnabled(False)
@@ -232,13 +231,11 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_MainWindow):
     def Live_Complete(self):
         self.Snapshot.setEnabled(True)
         self.Live_Feed.setEnabled(True)
-        self.Start_Imaging.setEnabled(True)
         self.Live_Feed.setText("Start Live Feed (30s)")
 
     def Check_Point(self):
-        if(self.Cloud_Sync.isChecked()):
-            self.Email_Thread = Email()
-            self.Email_Thread.start()
+        self.Email_Thread = Email()
+        self.Email_Thread.start()
         
     def Begin_Imaging(self):
         global jpg, name, duration, interval, total, file, on_flag, file_list
@@ -259,13 +256,9 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_MainWindow):
             self.Image_Thread.check_point.connect(lambda: self.Check_Point())
             self.Image_Thread.imaging_running.connect(lambda: self.Imaging_Running())
             self.Image_Thread.imaging_running_done.connect(lambda: self.Imaging_Running_Complete())
-
             self.Image_Thread.start()
-
-            if(self.Cloud_Sync.isChecked()):
-                self.Dropbox_Thread.start()
-                self.Email_Thread.start()
-
+            self.Dropbox_Thread.start()
+            self.Email_Thread.start()
             on_flag = True
         
         else:
@@ -343,20 +336,13 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_MainWindow):
             self.Dropbox_Confirm.setEnabled(True)
         else:
             self.Dropbox_Confirm.setEnabled(False)
-            self.Cloud_Sync.setEnabled(False)
-            self.Local_Storage.setChecked(True)
 
     def Email_Entered(self):
         global email
         email = self.Dropbox_Email.text()
-        self.Cloud_Sync.setEnabled(True)
-        self.Frequency_Off.setEnabled(True)
-        self.Frequency_Low.setEnabled(True)
-        self.Frequency_Average.setEnabled(True)
-        self.Frequency_High.setEnabled(True)
             
     def Start_Image(self):
-        global off, low, average, high, cloud
+        global off, low, average, high
         
         self.IST_Editor.setEnabled(False)
         self.ICI_spinBox.setEnabled(False)
