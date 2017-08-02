@@ -97,6 +97,7 @@ class Dropbox(QThread):
         while True:
             if (len(file_list) > 0):
                 os.system("/home/pi/Dropbox-Uploader/dropbox_uploader.sh upload " + file_list[0] + " /"+name)
+                os.system("rm " + file_list[0])
                 del file_list[0]
             if(current == total - 1 and len(file_list) == 0):
                 self.upload_complete.emit()
@@ -167,7 +168,7 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_MainWindow):
  # access variables inside of the UI's file
 
     def IST_Edit(self):
-        global name,
+        global name
         name = self.IST_Editor.text()
         
     def IST_Change(self):
