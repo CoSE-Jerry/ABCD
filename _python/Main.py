@@ -123,7 +123,9 @@ class Email(QThread):
         msg['Subject'] = "FLASHLAPSE NOTIFICATION"
 
         if (current == 0):
-            sleep(1)     
+            sleep(5)
+            print('mail')
+            body = "Hi " + email.split("@")[0] + "! \n\n" "Your Flashlapse image sequence "+name+" has been initiated, check it out here.\n\n" + link + "\n\nTeam Flashlapse"   
         else:
             if(noti_count == 0):
                 body = "Hi " + email.split("@")[0] + "! \n\n" "Your Flashlapse image sequence "+name+" has been initiated, check it out here.\n\n" + link + "\n\nTeam Flashlapse"
