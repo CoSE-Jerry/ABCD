@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>870</width>
     <height>560</height>
    </rect>
   </property>
@@ -18,13 +18,13 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>800</width>
+    <width>500</width>
     <height>560</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>800</width>
+    <width>1000</width>
     <height>560</height>
    </size>
   </property>
@@ -113,7 +113,7 @@
      <rect>
       <x>400</x>
       <y>230</y>
-      <width>350</width>
+      <width>431</width>
       <height>161</height>
      </rect>
     </property>
@@ -134,7 +134,7 @@
       <rect>
        <x>10</x>
        <y>70</y>
-       <width>331</width>
+       <width>411</width>
        <height>20</height>
       </rect>
      </property>
@@ -303,13 +303,51 @@
       <bool>true</bool>
      </property>
     </widget>
+    <widget class="QLabel" name="Unit_8_Label">
+     <property name="geometry">
+      <rect>
+       <x>350</x>
+       <y>20</y>
+       <width>50</width>
+       <height>50</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap>../_images/stop-red.png</pixmap>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="Unit_9_Label">
+     <property name="geometry">
+      <rect>
+       <x>350</x>
+       <y>90</y>
+       <width>50</width>
+       <height>50</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap>../_images/stop-red.png</pixmap>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+    </widget>
    </widget>
    <widget class="QFrame" name="Upper_Bay_Display">
     <property name="geometry">
      <rect>
       <x>400</x>
       <y>30</y>
-      <width>350</width>
+      <width>431</width>
       <height>161</height>
      </rect>
     </property>
@@ -330,7 +368,7 @@
       <rect>
        <x>10</x>
        <y>70</y>
-       <width>331</width>
+       <width>411</width>
        <height>20</height>
       </rect>
      </property>
@@ -338,48 +376,10 @@
       <enum>Qt::Horizontal</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="Unit_8_Label">
-     <property name="geometry">
-      <rect>
-       <x>30</x>
-       <y>20</y>
-       <width>50</width>
-       <height>50</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-     <property name="pixmap">
-      <pixmap>../_images/stop-red.png</pixmap>
-     </property>
-     <property name="scaledContents">
-      <bool>true</bool>
-     </property>
-    </widget>
     <widget class="QLabel" name="Unit_10_Label">
      <property name="geometry">
       <rect>
-       <x>110</x>
-       <y>20</y>
-       <width>50</width>
-       <height>50</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-     <property name="pixmap">
-      <pixmap>../_images/stop-red.png</pixmap>
-     </property>
-     <property name="scaledContents">
-      <bool>true</bool>
-     </property>
-    </widget>
-    <widget class="QLabel" name="Unit_14_Label">
-     <property name="geometry">
-      <rect>
-       <x>270</x>
+       <x>30</x>
        <y>20</y>
        <width>50</width>
        <height>50</height>
@@ -398,6 +398,44 @@
     <widget class="QLabel" name="Unit_12_Label">
      <property name="geometry">
       <rect>
+       <x>110</x>
+       <y>20</y>
+       <width>50</width>
+       <height>50</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap>../_images/stop-red.png</pixmap>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="Unit_16_Label">
+     <property name="geometry">
+      <rect>
+       <x>270</x>
+       <y>20</y>
+       <width>50</width>
+       <height>50</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap>../_images/stop-red.png</pixmap>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="Unit_14_Label">
+     <property name="geometry">
+      <rect>
        <x>190</x>
        <y>20</y>
        <width>50</width>
@@ -414,7 +452,7 @@
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QLabel" name="Unit_9_Label">
+    <widget class="QLabel" name="Unit_11_Label">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -433,7 +471,7 @@
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QLabel" name="Unit_11_Label">
+    <widget class="QLabel" name="Unit_13_Label">
      <property name="geometry">
       <rect>
        <x>110</x>
@@ -452,7 +490,7 @@
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QLabel" name="Unit_13_Label">
+    <widget class="QLabel" name="Unit_15_Label">
      <property name="geometry">
       <rect>
        <x>190</x>
@@ -471,11 +509,49 @@
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QLabel" name="Unit_15_Label">
+    <widget class="QLabel" name="Unit_17_Label">
      <property name="geometry">
       <rect>
        <x>270</x>
        <y>90</y>
+       <width>50</width>
+       <height>50</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap>../_images/stop-red.png</pixmap>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="Unit_19_Label">
+     <property name="geometry">
+      <rect>
+       <x>350</x>
+       <y>90</y>
+       <width>50</width>
+       <height>50</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap>../_images/stop-red.png</pixmap>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="Unit_18_Label">
+     <property name="geometry">
+      <rect>
+       <x>350</x>
+       <y>20</y>
        <width>50</width>
        <height>50</height>
       </rect>
@@ -567,7 +643,7 @@
      <rect>
       <x>40</x>
       <y>420</y>
-      <width>711</width>
+      <width>781</width>
       <height>141</height>
      </rect>
     </property>

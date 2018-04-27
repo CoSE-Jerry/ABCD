@@ -195,7 +195,7 @@ class PingLower(QThread):
         LowerStat = [0] * 8
         for x in range(0, 7):
             hostname = "192.168.1.10" + str(x)
-            response = os.system("ping -n 1 -w 1 " + hostname)
+            response = os.system("ping -c 1 -t 1 " + hostname)
             if response == 0:
                 LowerStat[x]=1
 
