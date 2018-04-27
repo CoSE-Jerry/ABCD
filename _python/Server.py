@@ -76,7 +76,7 @@ class CameraProgram:
     def run(self):
         global file_list, file,total
         total = int((duration*60)/interval)
-        file = "../_temp/" +name + "_%04d.jpg"
+        file = "../_temp/" +title + "_%04d.jpg"
         for i in range(total):
             current = i
             sleep(0.2)
