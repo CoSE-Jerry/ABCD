@@ -8,6 +8,7 @@ port = 5560
 title = ''
 email = ''
 file=''
+currentnum = 0
 interval = 0
 duration = 0
 total=0
@@ -44,9 +45,8 @@ def dataTransfer(conn):
         dataMessage = data.split('-', 5)
         command = dataMessage[0]
         if command == 'CURR':
-            reply = title+"-"+str(interval)+"-"+str(duration)+"-"+email
+            reply = title+"-"+str(interval)+"-"+str(duration)+"-"+email+"-"+total+"-"+currentnum
         elif command == 'CAM':
-            
             title = dataMessage[1]
             interval = int(dataMessage[2])
             duration = int(dataMessage[3])
@@ -74,11 +74,11 @@ class CameraProgram:
         self._running = False  
 
     def run(self):
-        global file_list, file,total
+        global file_list, file,total,currentnum
         total = int((duration*60)/interval)
         file = "../_temp/" +title + "_%04d.jpg"
         for i in range(total):
-            current = i
+            currentnum = i
             sleep(0.2)
             current_image = file % i
             with PiCamera() as camera:
@@ -87,8 +87,9 @@ class CameraProgram:
                 camera.resolution = (3280,2464)
                 camera._set_rotation(180)
                 camera.capture(current_image)
-            sleep(interval-1)
             file_list.append(current_image)
+            sleep(interval-1)
+            
 
 s = setupServer()
 
