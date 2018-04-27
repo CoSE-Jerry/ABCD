@@ -90,13 +90,6 @@ class CameraProgram:
             sleep(interval-1)
             file_list.append(current_image)
 
-#Create Class
-Camera = CameraProgram()
-#Create Thread
-CameraThread = Thread(target=Camera.run) 
-#Start Thread 
-CameraThread.start()
-
 s = setupServer()
 
 while True:
