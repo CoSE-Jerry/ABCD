@@ -54,6 +54,7 @@ class ConnectionUpdate(QThread):
                     reply = s.recv(1024)
                     reply = reply.decode('utf-8')
                     dataMessage = reply.split('-', 4)
+                    print(reply)
                     
                     loadtitle = dataMessage[0]
                     print("currnet title:"+loadtitle)

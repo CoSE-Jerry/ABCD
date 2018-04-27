@@ -45,7 +45,7 @@ def dataTransfer(conn):
         dataMessage = data.split('-', 5)
         command = dataMessage[0]
         if command == 'CURR':
-            reply = title+"-"+str(interval)+"-"+str(duration)+"-"+email+"-"+total+"-"+currentnum
+            reply = title+"-"+str(interval)+"-"+str(duration)+"-"+email+"-"+str(total)+"-"+str(currentnum)
         elif command == 'CAM':
             title = dataMessage[1]
             interval = int(dataMessage[2])
