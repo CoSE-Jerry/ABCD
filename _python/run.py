@@ -368,6 +368,8 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
         self.Update()
 
     def Stop_Imaging(self):
+        self.Stop_Imaging_Thread = QuitImaging()
+        self.Stop_Imaging_Thread.start()
 
     def __init__(self):
         super(self.__class__, self).__init__()

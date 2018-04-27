@@ -97,6 +97,7 @@ class CameraProgram:
                     while(terminate==False):
                         sleep(1)
         if(terminate):
+            print("killed")
             terminate=False
             
 
