@@ -12,6 +12,7 @@ currentnum = 0
 interval = 0
 duration = 0
 total=0
+terminate=False
 file_list = []
 
 def setupServer():
@@ -34,7 +35,7 @@ def CALL():
     return reply
 
 def dataTransfer(conn):
-    global interval, duration, title, email
+    global interval, duration, title, email,terminate
     # A big loop that sends/receives data until told not to.
     while True:
         # Receive the data
@@ -58,6 +59,9 @@ def dataTransfer(conn):
             CameraThread = Thread(target=Camera.run) 
             #Start Thread 
             CameraThread.start()
+        elif command == 'QUIT':
+            terminate=True;
+            
         else:
             reply = 'Unknown Command'
             
@@ -74,21 +78,27 @@ class CameraProgram:
         self._running = False  
 
     def run(self):
-        global file_list, file,total,currentnum
+        global file_list, file,total,currentnum,terminate
         total = int((duration*60)/interval)
         file = "../_temp/" +title + "_%04d.jpg"
-        for i in range(total):
-            currentnum = i
-            sleep(0.2)
-            current_image = file % i
-            with PiCamera() as camera:
-                print("image cap")
-                sleep(0.8)
-                camera.resolution = (3280,2464)
-                camera._set_rotation(180)
-                camera.capture(current_image)
-            file_list.append(current_image)
-            sleep(interval-1)
+        while(terminate==False)
+            for i in range(total):
+                currentnum = i
+                sleep(0.2)
+                current_image = file % i
+                with PiCamera() as camera:
+                    print("image cap")
+                    sleep(0.8)
+                    camera.resolution = (3280,2464)
+                    camera._set_rotation(180)
+                    camera.capture(current_image)
+                file_list.append(current_image)
+
+                for(x in range(0,interval-1)):
+                    while(terminate==False):
+                        sleep(1)
+        if(terminate):
+            terminate=False
             
 
 s = setupServer()

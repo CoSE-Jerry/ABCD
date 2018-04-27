@@ -23,7 +23,9 @@ interval=0
 duration=0
 loadinterval=0
 loadduration=0
-total=0
+loadtotal=0
+current=0
+running=False
 title=""
 loadtitle=""
 email="temp"
@@ -43,7 +45,7 @@ class ConnectionUpdate(QThread):
         self._running = False
 
     def run(self):
-        global loadtitle, loadinterval, loadduration,loademail
+        global loadtitle, loadinterval, loadduration,loademail,current,loadtotal
         for x in range(0, 7):
             if(LowerStat[x]==1):
                 HOST="192.168.1.10"+str(x)
@@ -53,14 +55,18 @@ class ConnectionUpdate(QThread):
                     s.send(str.encode("CURR"))
                     reply = s.recv(1024)
                     reply = reply.decode('utf-8')
-                    dataMessage = reply.split('-', 4)
+                    dataMessage = reply.split('-', 5)
                     print(reply)
                     
                     loadtitle = dataMessage[0]
                     print("currnet title:"+loadtitle)
                     loadinterval = dataMessage[1]
                     loadduration = dataMessage[2]
-                    #email = dataMessage[3]
+                    email = dataMessage[3]
+                    current = int(dataMessage[4])
+                    print(current)
+                    loadtotal = int(dataMessage[5])
+                    print(loadtotal)
                     s.close()
                 except:
                     print("nopey")
@@ -100,6 +106,42 @@ class StartImaging(QThread):
                     s.send(str.encode(cmd))
                     reply = s.recv(1024)
                     print (reply.decode('utf-8'))
+                    s.close()
+                except:
+                    print("nope")
+
+
+class QuitImaging(QThread):
+    
+    def __init__(self):
+        QThread.__init__(self)
+
+    def __del__(self):
+        self._running = False
+
+    def run(self):
+
+        for x in range(0, 7):
+            if(LowerRunning[x]==1):
+                HOST="192.168.1.10"+str(x)
+                print(HOST)
+                s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                try:
+                    s.connect((HOST,PORT))
+                    cmd = "QUIT"
+                    s.send(str.encode(cmd))
+                    s.close()
+                except:
+                    print("nope")
+                    
+            if(UpperRunning[x]==1):
+                HOST="192.168.1.20"+str(x)
+                print(HOST)
+                s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                try:
+                    s.connect((HOST,PORT))
+                    cmd = "QUIT"
+                    s.send(str.encode(cmd))
                     s.close()
                 except:
                     print("nope")
@@ -215,6 +257,7 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
     def Update(self):
         self.Update_Status.setText("Updating Status...")
         self.Update_Status.setEnabled(False)
+        self.Terminate_Imaging.setEnabled(False)
         self.LowerStat_Thread = PingLower()
         self.LowerStat_Thread.start()
         self.UpperStat_Thread = PingUpper()
@@ -266,8 +309,16 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
                 exec(cmd2)
         self.Update_Status.setText("Update Status")
         self.Update_Status.setEnabled(True)
-        self.IST_Editor.setEnabled(True)
+        if(running==False):
+            self.IST_Editor.setEnabled(True)
         self.ConnectUpdate()
+
+        if(running):
+            self.Start_Imaging.setEnabled(False)
+            self.Terminate_Imaging.setEnabled(True)
+        else:
+            self.Start_Imaging.setEnabled(True)
+            self.Terminate_Imaging.setEnabled(False)
 
     def ConnectionUIUpdate(self):
         global UpperConn,LowerConn
@@ -286,9 +337,37 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
         self.ICI_spinBox.setValue(int(loadinterval))
         self.ISD_spinBox.setValue(int(loadduration))
 
+        self.Image_Bar.setMaximum(current+1)
+        self.Image_Bar.setValue(loadtotal)
+
+        if(current==loadtotal):
+            running=False
+            self.StatusBar.setText("System Status: Idle...")
+        elif(current-1==loadtotal):
+            running=False
+            self.StatusBar.setText("System Status: Imaging Complete")
+        else:
+            running=True
+            self.StatusBar.setText("System Status: Imaging... %d/%d"%(loadtotal,current))
+        if(running):
+            self.Start_Imaging.setEnabled(False)
+            self.Terminate_Imaging.setEnabled(True)
+            self.IST_Editor.setEnabled(False)
+            self.ICI_spinBox.setEnabled(False)
+            self.ISD_spinBox.setEnabled(False)
+        else:
+            self.Start_Imaging.setEnabled(True)
+            self.Terminate_Imaging.setEnabled(False)
+            self.IST_Editor.setEnabled(True)
+            
+            
     def Begin_Imaging(self):
         self.Imaging_Thread = StartImaging()
         self.Imaging_Thread.start()
+        self.StatusBar.setText("System Status: Initializing Sequence...")
+        self.Update()
+
+    def Stop_Imaging(self):
 
     def __init__(self):
         super(self.__class__, self).__init__()
@@ -300,6 +379,7 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
         self.ICI_spinBox.valueChanged.connect(lambda: self.ICI_Change())
         self.ISD_spinBox.valueChanged.connect(lambda: self.ISD_Change())
         self.Start_Imaging.clicked.connect(lambda: self.Begin_Imaging())
+        self.Terminate_Imaging.clicked.connect(lambda: self.Stop_Imaging())
         
 
 # I feel better having one of these
