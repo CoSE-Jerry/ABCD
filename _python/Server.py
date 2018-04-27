@@ -48,8 +48,8 @@ def dataTransfer(conn):
         elif command == 'CAM':
             
             title = dataMessage[1]
-            interval = dataMessage[2]
-            duration = dataMessage[3]
+            interval = int(dataMessage[2])
+            duration = int(dataMessage[3])
             #email = dataMessage[4]
             reply = title
             #Create Class
