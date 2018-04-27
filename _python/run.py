@@ -12,13 +12,13 @@ from PyQt5.QtWidgets import *
 
 PORT = 5560
 
-UpperStat = [0] * 8
-LowerStat = [0] * 8
-UpperConn = [1] * 8
-LowerConn = [1] * 8
+UpperStat = [0] * 10
+LowerStat = [0] * 10
+UpperConn = [1] * 10
+LowerConn = [1] * 10
 
-UpperRunning = [0] * 8
-LowerRunning = [0] * 8
+UpperRunning = [0] * 10
+LowerRunning = [0] * 10
 
 interval=0
 duration=0
@@ -82,7 +82,7 @@ class StartImaging(QThread):
 
     def run(self):
 
-        for x in range(0, 7):
+        for x in range(0, 9):
             if(LowerRunning[x]==1):
                 HOST="192.168.1.10"+str(x)
                 print(HOST)
@@ -122,7 +122,7 @@ class QuitImaging(QThread):
 
     def run(self):
 
-        for x in range(0, 7):
+        for x in range(0, 9):
             if(LowerRunning[x]==1):
                 HOST="192.168.1.10"+str(x)
                 print(HOST)
@@ -157,7 +157,7 @@ class PingConnection(QThread):
 
     def run(self):
         global LowerConn,Upperconn,UpperRunning,LowerRunning
-        for x in range(0, 7):
+        for x in range(0, 9):
             if(LowerStat[x]==1):
                 HOST="192.168.1.10"+str(x)
                 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -169,7 +169,7 @@ class PingConnection(QThread):
                 except:
                     LowerConn[x]=0
                     print("connection failed" + HOST)
-        for x in range(0, 7):
+        for x in range(0, 9):
             if(UpperStat[x]==1):
                 HOST="192.168.1.20"+str(x)
                 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -192,8 +192,8 @@ class PingLower(QThread):
 
     def run(self):
         global LowerStat, LowerReady
-        LowerStat = [0] * 8
-        for x in range(0, 7):
+        LowerStat = [0] * 10
+        for x in range(0, 9):
             hostname = "192.168.1.10" + str(x)
             response = os.system("fping -c1 -t20 " + hostname)
             if response == 0:
@@ -209,8 +209,8 @@ class PingUpper(QThread):
 
     def run(self):
         global UpperStat, UpperReady
-        UpperStat = [0] * 8
-        for x in range(0, 7):
+        UpperStat = [0] * 10
+        for x in range(0, 9):
             hostname = "192.168.1.20" + str(x)
             response = os.system("fping -c1 -t20 " + hostname)
             if response == 0:
@@ -282,7 +282,7 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
         self.Ping_Connection_Thread.finished.connect(lambda: self.ConnectionUIUpdate())
      
     def UpdateLower(self):
-        for x in range(0, 7):
+        for x in range(0, 9):
             if(LowerStat[x]==1):
                 cmd1 = "self.Unit_%d_Label.setEnabled(True)"%x
                 cmd2 = "self.Unit_%d_Label.setPixmap(QtGui.QPixmap(\"../_images/Green_button.png\"))"%x
@@ -296,7 +296,7 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
             
 
     def UpdateUpper(self):
-        for x in range(0, 7):
+        for x in range(0, 9):
             xmod=x+8
             if(UpperStat[x]==1):
                 cmd1 = "self.Unit_%d_Label.setEnabled(True)"%xmod
@@ -323,17 +323,17 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
 
     def ConnectionUIUpdate(self):
         global UpperConn,LowerConn
-        for x in range(0, 7):
+        for x in range(0, 9):
             if(LowerConn[x]==0):
                 cmd = "self.Unit_%d_Label.setEnabled(False)"%x
                 exec(cmd)
-        for x in range(0, 7):
+        for x in range(0, 9):
             xmod=x+8
             if(UpperConn[x]==0):
                 cmd = "self.Unit_%d_Label.setEnabled(False)"%xmod
                 exec(cmd)
-        UpperConn = [1] * 8
-        LowerConn = [1] * 8
+        UpperConn = [1] * 10
+        LowerConn = [1] * 10
         self.IST_Editor.setText(loadtitle)
         self.ICI_spinBox.setValue(int(loadinterval))
         self.ISD_spinBox.setValue(int(loadduration))
