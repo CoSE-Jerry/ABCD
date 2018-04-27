@@ -1,1 +1,1 @@
-pyuic5 ABCD.ui > ../_python/ABCD_UI.py
+pyuic5 Demo.ui > ../_python/ABCD_UI.py
