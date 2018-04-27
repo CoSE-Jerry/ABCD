@@ -47,8 +47,9 @@ class ConnectionUpdate(QThread):
 
     def run(self):
         global loadtitle, loadinterval, loadduration,loademail,current,loadtotal
-        for x in range(0, 7):
-            if(LowerStat[x]==1):
+        found=False
+        for x in range(0, 9):
+            if(LowerStat[x]==1 and found ==False):
                 HOST="192.168.1.10"+str(x)
                 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 try:
@@ -60,7 +61,6 @@ class ConnectionUpdate(QThread):
                     print(reply)
                     
                     loadtitle = dataMessage[0]
-                    print("currnet title:"+loadtitle)
                     loadinterval = dataMessage[1]
                     loadduration = dataMessage[2]
                     email = dataMessage[3]
@@ -68,9 +68,37 @@ class ConnectionUpdate(QThread):
                     print(current)
                     loadtotal = int(dataMessage[5])
                     print(loadtotal)
+                    if(len(loadtotal)>0):
+                        found=True
                     s.close()
                 except:
                     print("nopey")
+                    
+            if(UpperStat[x]==1 and found ==False):
+                HOST="192.168.1.20"+str(x)
+                s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                try:
+                    s.connect((HOST,PORT))
+                    s.send(str.encode("CURR"))
+                    reply = s.recv(1024)
+                    reply = reply.decode('utf-8')
+                    dataMessage = reply.split('-', 5)
+                    print(reply)
+                    
+                    loadtitle = dataMessage[0]
+                    loadinterval = dataMessage[1]
+                    loadduration = dataMessage[2]
+                    email = dataMessage[3]
+                    current = int(dataMessage[4])
+                    print(current)
+                    loadtotal = int(dataMessage[5])
+                    print(loadtotal)
+                    if(len(loadtotal)>0):
+                        found=True
+                    s.close()
+                except:
+                    print("nopey")
+            
 
 class StartImaging(QThread):
     
