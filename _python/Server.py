@@ -81,7 +81,7 @@ class CameraProgram:
         global file_list, file,total,currentnum,terminate
         total = int((duration*60)/interval)
         file = "../_temp/" +title + "_%04d.jpg"
-        while(terminate==False)
+        while(terminate==False):
             for i in range(total):
                 currentnum = i
                 sleep(0.2)
@@ -93,8 +93,7 @@ class CameraProgram:
                     camera._set_rotation(180)
                     camera.capture(current_image)
                 file_list.append(current_image)
-
-                for(x in range(0,interval-1)):
+                for x in range(0,interval-1):
                     while(terminate==False):
                         sleep(1)
         if(terminate):
