@@ -5,10 +5,13 @@ from time import sleep
 
 host = ''
 port = 5560
-title = ""
-email = ""
+title = ''
+email = ''
+file=''
 interval = 0
 duration = 0
+total=0
+file_list = []
 
 def setupServer():
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -71,11 +74,21 @@ class CameraProgram:
         self._running = False  
 
     def run(self):
-        global interval, duration
-        with PiCamera() as camera:
-            camera.resolution = (2464,2464)
-            camera._set_rotation(180)
-            camera.capture("../snapshot.jpg")
+        global file_list, file,total
+        total = int((duration*60)/interval)
+        file = "../_temp/" +name + "_%04d.jpg"
+        for i in range(total):
+            current = i
+            sleep(0.2)
+            current_image = file % i
+            with PiCamera() as camera:
+                print("image cap")
+                sleep(0.8)
+                camera.resolution = (3280,2464)
+                camera._set_rotation(180)
+                camera.capture(current_image)
+            sleep(interval-1)
+            file_list.append(current_image)
 
 #Create Class
 Camera = CameraProgram()
