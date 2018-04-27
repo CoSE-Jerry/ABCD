@@ -297,7 +297,7 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
 
     def UpdateUpper(self):
         for x in range(0, 9):
-            xmod=x+8
+            xmod=x+10
             if(UpperStat[x]==1):
                 cmd1 = "self.Unit_%d_Label.setEnabled(True)"%xmod
                 cmd2 = "self.Unit_%d_Label.setPixmap(QtGui.QPixmap(\"../_images/Green_button.png\"))"%xmod
@@ -328,7 +328,7 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
                 cmd = "self.Unit_%d_Label.setEnabled(False)"%x
                 exec(cmd)
         for x in range(0, 9):
-            xmod=x+8
+            xmod=x+10
             if(UpperConn[x]==0):
                 cmd = "self.Unit_%d_Label.setEnabled(False)"%xmod
                 exec(cmd)
