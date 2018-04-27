@@ -1,4 +1,5 @@
 import socket
+import subprocess
 from picamera import PiCamera
 from threading import Thread
 from time import sleep
@@ -8,6 +9,7 @@ port = 5560
 title = ''
 email = ''
 file=''
+link=''
 currentnum = 0
 interval = 0
 duration = 0
@@ -59,6 +61,13 @@ def dataTransfer(conn):
             CameraThread = Thread(target=Camera.run) 
             #Start Thread 
             CameraThread.start()
+
+            Dropbox = DropboxProgram()
+            #Create Thread
+            DropboxThread = Thread(target=Dropbox.run) 
+            #Start Thread 
+            DropboxThread.start()
+            
         elif command == 'QUIT':
             terminate=True;
             reply = "killed"
@@ -105,6 +114,29 @@ class CameraProgram:
             terminate=False
             currentnum=0
             total=0
+
+class DropboxProgram:  
+    def __init__(self):
+        self._running = True
+
+    def terminate(self):  
+        self._running = False  
+
+    def run(self):
+        sys.path.insert(0,'../../HP')
+        import Email
+        
+        global file_list, title, link
+        os.system("/home/pi/Dropbox-Uploader/dropbox_uploader.sh mkdir /ABCD/" + title)
+        os.system("/home/pi/Dropbox-Uploader/dropbox_uploader.sh mkdir /ABCD/" + title+"/"+Email.ID)
+        link = str(subprocess.check_output("/home/pi/Dropbox-Uploader/dropbox_uploader.sh share /ABCD/" + title+"/"+Email.ID shell=True))
+        link = link.replace("b' > ", "")
+        link = link.split("\\")[0]
+        
+        while (terminate==False):
+            if (len(file_list) > 0):
+                os.system("/home/pi/Dropbox-Uploader/dropbox_uploader.sh upload " + file_list[0] + " /ABCD/"+name+"/"+Email.ID)
+                del file_list[0]
             
 
 s = setupServer()

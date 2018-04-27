@@ -4,6 +4,7 @@ import os
 
 # This gets the Qt stuff
 import PyQt5
+from time import sleep
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtCore import QThread
@@ -365,11 +366,16 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
         self.Imaging_Thread = StartImaging()
         self.Imaging_Thread.start()
         self.StatusBar.setText("System Status: Initializing Sequence...")
+        sleep(1)
         self.Update()
 
     def Stop_Imaging(self):
         self.Stop_Imaging_Thread = QuitImaging()
         self.Stop_Imaging_Thread.start()
+        running=False
+        self.StatusBar.setText("System Status: Idle...")
+        sleep(1)
+        self.Update()
 
     def __init__(self):
         super(self.__class__, self).__init__()
