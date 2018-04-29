@@ -126,12 +126,13 @@ class DropboxProgram:
 
     def run(self):
         sys.path.insert(0,'../../HP')
-        import Email
+        get = os.popen('hostname -I').read()
+        ip = get.split('.', 4)
         
         global file_list, title, link
         os.system("/home/pi/Dropbox-Uploader/dropbox_uploader.sh mkdir /ABCD/" + title)
-        os.system("/home/pi/Dropbox-Uploader/dropbox_uploader.sh mkdir /ABCD/" + title+"/"+Email.ID)
-        temp = "/home/pi/Dropbox-Uploader/dropbox_uploader.sh share /ABCD/" + title+"/"+Email.ID
+        os.system("/home/pi/Dropbox-Uploader/dropbox_uploader.sh mkdir /ABCD/" + title+"/"+ip[3].strip())
+        temp = "/home/pi/Dropbox-Uploader/dropbox_uploader.sh share /ABCD/" + title+"/"+ip[3].strip()
         link = str(subprocess.check_output(temp, shell=True))
         link = link.replace("b' > ", "")
         link = link.split("\\")[0]
