@@ -450,9 +450,11 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
         self.Start_Live_Thread.start()
         self.Start_Live.setEnabled(False)
         self.Start_Live_Thread.finished.connect(lambda: self.Live_Done())
+        self.Start_Imaging.setEnabled(False)
 
     def Live_Done(self):
         self.Start_Live.setEnabled(True)
+        self.Start_Imaging.setEnabled(True)
         
         
     def __init__(self):
