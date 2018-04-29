@@ -145,7 +145,7 @@ class DropboxProgram:
         
         while (terminate==False):
             if (len(file_list) > 0):
-                os.system("/home/pi/Dropbox-Uploader/dropbox_uploader.sh upload " + file_list[0] + " /ABCD/"+title+"/"+Email.ID)
+                os.system("/home/pi/Dropbox-Uploader/dropbox_uploader.sh upload " + file_list[0] + " /ABCD/"+title+"/"+ip[3].strip())
                 del file_list[0]
             
 
