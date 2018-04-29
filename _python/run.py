@@ -223,7 +223,7 @@ class PingLower(QThread):
         LowerStat = [0] * 10
         for x in range(0, 9):
             hostname = "192.168.1.10" + str(x)
-            response = os.system("fping -c1 -t20 " + hostname)
+            response = os.system("fping -c1 -t50 " + hostname)
             if response == 0:
                 LowerStat[x]=1
 
@@ -240,7 +240,7 @@ class PingUpper(QThread):
         UpperStat = [0] * 10
         for x in range(0, 9):
             hostname = "192.168.1.20" + str(x)
-            response = os.system("fping -c1 -t20 " + hostname)
+            response = os.system("fping -c1 -t50 " + hostname)
             if response == 0:
                 UpperStat[x]=1
 
