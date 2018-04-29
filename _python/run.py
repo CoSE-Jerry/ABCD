@@ -445,6 +445,7 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
         self.Start_Live_Thread = StartLiveFeed()
         self.Start_Live_Thread.start()
         Start_Live.setEnabled(False)
+        self.Start_Live_Thread.finished.connect(lambda: self.Live_Done())
 
     def Live_Done(self):
         Start_Live.setEnabled(True)
@@ -462,7 +463,7 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
         self.Start_Imaging.clicked.connect(lambda: self.Begin_Imaging())
         self.Terminate_Imaging.clicked.connect(lambda: self.Stop_Imaging())
         self.Start_Live.clicked.connect(lambda: self.Start_Live())
-        self.Start_Live_Thread.finished.connect(lambda: self.Live_Done())
+        
         
 
 # I feel better having one of these
