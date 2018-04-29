@@ -386,7 +386,7 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
             self.Terminate_Imaging.setEnabled(False)
 
     def ConnectionUIUpdate(self):
-        global UpperConn,LowerConn
+        global UpperConn,LowerConn,running
         for x in range(0, 9):
             if(LowerConn[x]==0):
                 cmd = "self.Unit_%d_Label.setEnabled(False)"%x
