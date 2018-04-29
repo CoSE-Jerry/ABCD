@@ -139,42 +139,6 @@ class StartImaging(QThread):
                 except:
                     print("nope")
 
-class Livefeed(QThread):
-    
-    def __init__(self):
-        QThread.__init__(self)
-
-    def __del__(self):
-        self._running = False
-
-    def run(self):
-
-        for x in range(0, 9):
-            if(LowerRunning[x]==1):
-                HOST="192.168.1.10"+str(x)
-                s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                try:
-                    s.connect((HOST,PORT))
-                    cmd = "LIVE"
-                    s.send(str.encode(cmd))
-                    s.close()
-                except:
-                    print("nope")
-                    
-            if(UpperRunning[x]==1):
-                HOST="192.168.1.20"+str(x)
-                s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                try:
-                    s.connect((HOST,PORT))
-                    cmd = "LIVE"
-                    s.send(str.encode(cmd))
-                    s.close()
-                except:
-                    print("nope")
-        sleep(60)
-
-            
-
 
 class QuitImaging(QThread):
     
@@ -276,7 +240,7 @@ class PingUpper(QThread):
         UpperStat = [0] * 10
         for x in range(0, 9):
             hostname = "192.168.1.20" + str(x)
-            response = os.system("fping -c1 -t5f0 " + hostname)
+            response = os.system("fping -c1 -t50 " + hostname)
             if response == 0:
                 UpperStat[x]=1
 
@@ -441,16 +405,6 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
         sleep(1)
         self.Update()
 
-    def Start_Live(self):
-        self.Start_Live_Thread = StartLiveFeed()
-        self.Start_Live_Thread.start()
-        Start_Live.setEnabled(False)
-        self.Start_Live_Thread.finished.connect(lambda: self.Live_Done())
-
-    def Live_Done(self):
-        Start_Live.setEnabled(True)
-        
-        
     def __init__(self):
         super(self.__class__, self).__init__()
         self.setupUi(self) # gets defined in the UI file
@@ -462,8 +416,6 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
         self.ISD_spinBox.valueChanged.connect(lambda: self.ISD_Change())
         self.Start_Imaging.clicked.connect(lambda: self.Begin_Imaging())
         self.Terminate_Imaging.clicked.connect(lambda: self.Stop_Imaging())
-        self.Start_Live.clicked.connect(lambda: self.Start_Live())
-        
         
 
 # I feel better having one of these
