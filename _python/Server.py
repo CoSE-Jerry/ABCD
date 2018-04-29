@@ -1,5 +1,7 @@
 import socket
 import subprocess
+import os
+import sys
 from picamera import PiCamera
 from threading import Thread
 from time import sleep
@@ -129,13 +131,14 @@ class DropboxProgram:
         global file_list, title, link
         os.system("/home/pi/Dropbox-Uploader/dropbox_uploader.sh mkdir /ABCD/" + title)
         os.system("/home/pi/Dropbox-Uploader/dropbox_uploader.sh mkdir /ABCD/" + title+"/"+Email.ID)
-        link = str(subprocess.check_output("/home/pi/Dropbox-Uploader/dropbox_uploader.sh share /ABCD/" + title+"/"+Email.ID shell=True))
+        temp = "/home/pi/Dropbox-Uploader/dropbox_uploader.sh share /ABCD/" + title+"/"+Email.ID
+        link = str(subprocess.check_output(temp, shell=True))
         link = link.replace("b' > ", "")
         link = link.split("\\")[0]
         
         while (terminate==False):
             if (len(file_list) > 0):
-                os.system("/home/pi/Dropbox-Uploader/dropbox_uploader.sh upload " + file_list[0] + " /ABCD/"+name+"/"+Email.ID)
+                os.system("/home/pi/Dropbox-Uploader/dropbox_uploader.sh upload " + file_list[0] + " /ABCD/"+title+"/"+Email.ID)
                 del file_list[0]
             
 
