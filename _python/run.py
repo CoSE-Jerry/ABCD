@@ -290,7 +290,7 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
         
     def IST_Change(self):
         
-        self.ICI_spinBox.setd(True)
+        self.ICI_spinBox.setEnabled(True)
         if(len(self.IST_Editor.text())==0):
             self.ICI_spinBox.setEnabled(False)
             self.ISD_spinBox.setEnabled(False)
