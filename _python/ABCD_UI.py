@@ -250,7 +250,7 @@ class Ui_Demo(object):
         self.Terminate_Imaging.setObjectName("Terminate_Imaging")
         self.verticalLayout_3.addWidget(self.Terminate_Imaging)
         self.Start_Live = QtWidgets.QPushButton(self.verticalLayoutWidget_3)
-        self.Start_Live.setEnabled(False)
+        self.Start_Live.setEnabled(True)
         self.Start_Live.setObjectName("Start_Live")
         self.verticalLayout_3.addWidget(self.Start_Live)
         self.Start_Imaging = QtWidgets.QPushButton(self.verticalLayoutWidget_3)

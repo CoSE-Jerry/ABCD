@@ -684,7 +684,7 @@
      <item>
       <widget class="QPushButton" name="Start_Live">
        <property name="enabled">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
        <property name="text">
         <string>Live View</string>
