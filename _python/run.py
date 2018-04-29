@@ -396,6 +396,10 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
             if(UpperConn[x]==0):
                 cmd = "self.Unit_%d_Label.setEnabled(False)"%xmod
                 exec(cmd)
+        if(running):
+            self.Start_Live.setEnabled(False)
+        else:
+            self.Start_Live.setEnabled(True)
         UpperConn = [1] * 10
         LowerConn = [1] * 10
         self.IST_Editor.setText(loadtitle)
