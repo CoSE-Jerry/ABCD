@@ -441,7 +441,7 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
         sleep(1)
         self.Update()
 
-    def Start_Live(self):
+    def Start_Livefed(self):
         self.Start_Live_Thread = StartLiveFeed()
         self.Start_Live_Thread.start()
         Start_Live.setEnabled(False)
@@ -462,7 +462,7 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
         self.ISD_spinBox.valueChanged.connect(lambda: self.ISD_Change())
         self.Start_Imaging.clicked.connect(lambda: self.Begin_Imaging())
         self.Terminate_Imaging.clicked.connect(lambda: self.Stop_Imaging())
-        self.Start_Live.clicked.connect(lambda: self.Start_Live())
+        self.Start_Live.clicked.connect(lambda: self.Start_Livefed())
         
         
 
