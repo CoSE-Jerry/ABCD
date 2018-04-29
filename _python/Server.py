@@ -69,6 +69,13 @@ def dataTransfer(conn):
             DropboxThread = Thread(target=Dropbox.run) 
             #Start Thread 
             DropboxThread.start()
+
+        elif command == 'LIVE':
+            with PiCamera() as camera:
+                camera._set_rotation(180)
+                camera.start_preview()
+                sleep(60)
+            reply = "done"
             
         elif command == 'QUIT':
             terminate=True;
@@ -79,7 +86,6 @@ def dataTransfer(conn):
             
         # Send the reply back to the client
         conn.sendall(str.encode(reply))
-        print("Data has been sent!")
     conn.close()
     
 class CameraProgram:  
