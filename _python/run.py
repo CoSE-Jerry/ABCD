@@ -444,11 +444,11 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
     def Start_Livefed(self):
         self.Start_Live_Thread = Livefeed()
         self.Start_Live_Thread.start()
-        Start_Live.setEnabled(False)
+        self.Start_Live.setEnabled(False)
         self.Start_Live_Thread.finished.connect(lambda: self.Live_Done())
 
     def Live_Done(self):
-        Start_Live.setEnabled(True)
+        self.Start_Live.setEnabled(True)
         
         
     def __init__(self):
