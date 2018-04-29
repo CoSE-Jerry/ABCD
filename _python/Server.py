@@ -98,7 +98,7 @@ class CameraProgram:
     def run(self):
         global file_list, file,total,currentnum,terminate
         total = int((duration*60)/interval)
-        file = "../_temp/" +title + "_%04d.jpg"
+        file = "/home/pi/ABCD/_temp/" +title + "_%04d.jpg"
         for i in range(total):
             currentnum = i
             sleep(0.2)
@@ -131,7 +131,6 @@ class DropboxProgram:
         self._running = False  
 
     def run(self):
-        sys.path.insert(0,'../../HP')
         get = os.popen('hostname -I').read()
         ip = get.split('.', 4)
         
