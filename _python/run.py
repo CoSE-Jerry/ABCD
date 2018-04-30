@@ -48,7 +48,7 @@ class ConnectionUpdate(QThread):
     def run(self):
         global loadtitle, loadinterval, loadduration,loademail,current,loadtotal
         found=False
-        for x in range(0, 9):
+        for x in range(0, 10):
             if(LowerStat[x]==1 and found ==False):
                 HOST="192.168.1.10"+str(x)
                 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -110,7 +110,7 @@ class StartImaging(QThread):
 
     def run(self):
 
-        for x in range(0, 9):
+        for x in range(0, 10):
             if(LowerRunning[x]==1):
                 HOST="192.168.1.10"+str(x)
                 print(HOST)
@@ -149,7 +149,7 @@ class Livefeed(QThread):
 
     def run(self):
 
-        for x in range(0, 9):
+        for x in range(0, 10):
             if(LowerRunning[x]==1):
                 HOST="192.168.1.10"+str(x)
                 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -186,7 +186,7 @@ class QuitImaging(QThread):
 
     def run(self):
 
-        for x in range(0, 9):
+        for x in range(0, 10):
             if(LowerRunning[x]==1):
                 HOST="192.168.1.10"+str(x)
                 print(HOST)
@@ -221,7 +221,7 @@ class PingConnection(QThread):
 
     def run(self):
         global LowerConn,Upperconn,UpperRunning,LowerRunning
-        for x in range(0, 9):
+        for x in range(0, 10):
             if(LowerStat[x]==1):
                 HOST="192.168.1.10"+str(x)
                 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -233,7 +233,7 @@ class PingConnection(QThread):
                 except:
                     LowerConn[x]=0
                     print("connection failed" + HOST)
-        for x in range(0, 9):
+        for x in range(0, 10):
             if(UpperStat[x]==1):
                 HOST="192.168.1.20"+str(x)
                 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -257,7 +257,7 @@ class PingLower(QThread):
     def run(self):
         global LowerStat, LowerReady
         LowerStat = [0] * 10
-        for x in range(0, 9):
+        for x in range(0, 10):
             hostname = "192.168.1.10" + str(x)
             response = os.system("fping -c1 -t50 " + hostname)
             if response == 0:
@@ -274,7 +274,7 @@ class PingUpper(QThread):
     def run(self):
         global UpperStat, UpperReady
         UpperStat = [0] * 10
-        for x in range(0, 9):
+        for x in range(0, 10):
             hostname = "192.168.1.20" + str(x)
             response = os.system("fping -c1 -t50 " + hostname)
             if response == 0:
@@ -346,7 +346,7 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
         self.Ping_Connection_Thread.finished.connect(lambda: self.ConnectionUIUpdate())
      
     def UpdateLower(self):
-        for x in range(0, 9):
+        for x in range(0, 10):
             if(LowerStat[x]==1):
                 cmd1 = "self.Unit_%d_Label.setEnabled(True)"%x
                 cmd2 = "self.Unit_%d_Label.setPixmap(QtGui.QPixmap(\"../_images/Green_button.png\"))"%x
@@ -360,7 +360,7 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
             
 
     def UpdateUpper(self):
-        for x in range(0, 9):
+        for x in range(0, 10):
             xmod=x+10
             if(UpperStat[x]==1):
                 cmd1 = "self.Unit_%d_Label.setEnabled(True)"%xmod
@@ -387,11 +387,11 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
 
     def ConnectionUIUpdate(self):
         global UpperConn,LowerConn,running
-        for x in range(0, 9):
+        for x in range(0, 10):
             if(LowerConn[x]==0):
                 cmd = "self.Unit_%d_Label.setEnabled(False)"%x
                 exec(cmd)
-        for x in range(0, 9):
+        for x in range(0, 10):
             xmod=x+10
             if(UpperConn[x]==0):
                 cmd = "self.Unit_%d_Label.setEnabled(False)"%xmod
