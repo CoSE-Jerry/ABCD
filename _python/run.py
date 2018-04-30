@@ -124,6 +124,7 @@ class StartImaging(QThread):
                     s.close()
                 except:
                     print("nope")
+        sleep(2)
                     
             if(UpperRunning[x]==1):
                 HOST="192.168.1.20"+str(x)
@@ -138,6 +139,7 @@ class StartImaging(QThread):
                     s.close()
                 except:
                     print("nope")
+        sleep(2)
 
 class Livefeed(QThread):
     
