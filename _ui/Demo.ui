@@ -610,29 +610,19 @@
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="QLabel" name="email_label">
+      <widget class="QPushButton" name="Start_Live">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
        <property name="text">
-        <string>Email Address:</string>
+        <string>Live View</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="email_edit">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="confirm_email">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
+      <widget class="QPushButton" name="Test_Capture">
        <property name="text">
-        <string>Confirm</string>
-       </property>
-       <property name="checkable">
-        <bool>false</bool>
+        <string>PushButton</string>
        </property>
       </widget>
      </item>
@@ -678,16 +668,6 @@
        </property>
        <property name="text">
         <string>Terminate Imaging</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="Start_Live">
-       <property name="enabled">
-        <bool>true</bool>
-       </property>
-       <property name="text">
-        <string>Live View</string>
        </property>
       </widget>
      </item>
