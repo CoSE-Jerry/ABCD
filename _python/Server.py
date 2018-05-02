@@ -9,7 +9,6 @@ from time import sleep
 host = ''
 port = 5560
 title = ''
-email = ''
 file=''
 link=''
 currentnum = 0
@@ -34,12 +33,8 @@ def setupConnection():
     conn, address = s.accept()
     return conn
 
-def CALL():
-    reply = "CONNECTED"
-    return reply
-
 def dataTransfer(conn):
-    global interval, duration, title, email,terminate
+    global interval, duration, title,terminate
     # A big loop that sends/receives data until told not to.
     while True:
         # Receive the data
@@ -50,12 +45,11 @@ def dataTransfer(conn):
         dataMessage = data.split('-', 5)
         command = dataMessage[0]
         if command == 'CURR':
-            reply = title+"-"+str(interval)+"-"+str(duration)+"-"+email+"-"+str(total)+"-"+str(currentnum)
+            reply = title+"-"+str(interval)+"-"+str(duration)+"-"+str(currentnum)+"-"+str(total)
         elif command == 'CAM':
             title = dataMessage[1]
             interval = int(dataMessage[2])
             duration = int(dataMessage[3])
-            #email = dataMessage[4]
             reply = title
             #Create Class
             Camera = CameraProgram()
