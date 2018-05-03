@@ -368,7 +368,7 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
             self.StatusBar.setText("System Status: Imaging Complete")
         else:
             running=True
-            self.StatusBar.setText("System Status: Imaging... %d/%d"%(loadtotal,loadcurrent))
+            self.StatusBar.setText("System Status: Imaging... %d/%d"%(loadcurrent,loadtotal))
         if(running):
             self.Start_Imaging.setEnabled(False)
             self.Terminate_Imaging.setEnabled(True)
