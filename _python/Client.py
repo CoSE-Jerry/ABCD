@@ -137,6 +137,7 @@ class StartImaging(QThread):
                     print (reply.decode('utf-8'))
                     s.close()
                 except:
+                    print("CAM Command To: " + HOST+" FAILED")
                 sleep(2)
 
 class Livefeed(QThread):
