@@ -331,6 +331,7 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
             print("Load Data Handshake Failed")
 
     def DisplayData(self):
+        global running
         if(running):
             self.Start_Live.setEnabled(False)
         else:
