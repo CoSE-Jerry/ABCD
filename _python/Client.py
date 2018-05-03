@@ -323,12 +323,12 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
         
 
     def LoadData(self):
-        try:
-            self.LoadData_Thread = DataHandshake()
-            self.LoadData.start()
+        #try:
+        self.LoadData_Thread = DataHandshake()
+        self.LoadData.start()
             
-        except:
-            print("Load Data Handshake Failed")
+        #except:
+            #print("Load Data Handshake Failed")
             
     def ConnectionTest(self):
 
