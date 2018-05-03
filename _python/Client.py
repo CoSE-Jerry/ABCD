@@ -34,7 +34,7 @@ loadtitle=""
 import ABCD_UI
 
 
-class ConnectionUpdate(QThread):
+class DataHandshake(QThread):
     
     def __init__(self):
         QThread.__init__(self)
@@ -47,7 +47,7 @@ class ConnectionUpdate(QThread):
         found=False
         
         for x in range(0, 10):
-            if(LowerStat[x]==1 and found ==False):
+            if(LowerRunning[x]==1 and found ==False):
                 HOST="192.168.1.10"+str(x)
                 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 try:
@@ -69,7 +69,7 @@ class ConnectionUpdate(QThread):
                 except:
                     print("CURR Command Failed")
                     
-            if(UpperStat[x]==1 and found ==False):
+            if(UpperRunning[x]==1 and found ==False):
                 HOST="192.168.1.20"+str(x)
                 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 try:
@@ -90,6 +90,10 @@ class ConnectionUpdate(QThread):
                     s.close()
                 except:
                     print("CURR Command Failed")
+        if(len(loadtitle)>0)
+            print("Loaded Data: "+loadtitle+" - "+str(loadinterval)+" - "+str(loadduration)+" - "+str(loadtotal)+" - "+str(loadcurrent))
+        else
+            print("No Data Loaded")
             
 
 class StartImaging(QThread):
@@ -254,12 +258,12 @@ class Ping(QThread):
         UpperStat = [0] * 10
         for x in range(0, 10):
             hostname = "192.168.1.10" + str(x)
-            response = os.system("fping -c1 -t100 " + hostname)
+            response = os.system("fping -c1 -t50 " + hostname)
             if response == 0:
                 LowerStat[x]=1
 
             hostname = "192.168.1.20" + str(x)
-            response = os.system("fping -c1 -t100 " + hostname)
+            response = os.system("fping -c1 -t50 " + hostname)
             if response == 0:
                 UpperStat[x]=1
 
@@ -315,16 +319,17 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
         self.Ping_Thread.finished.connect(lambda: self.PingUIUpdate())
         
 
-    def ConnectUpdate(self):
+    def LoadData(self):
         try:
-            self.Connection_Thread = ConnectionUpdate()
-            self.Connection_Thread.start()
-            self.Connection_Thread.finished.connect(lambda: self.ConnectionTest())
+            self.LoadData_Thread = DataHandshake()
+            self.LoadData.start()
+            self.LoadData.finished.connect(lambda: self.ConnectionTest())
+            
         except:
-            print("Checking Connection Failed")
+            print("Load Data Handshake Failed")
             
     def ConnectionTest(self):
-        print("Loaded Data: "+loadtitle+" - "+str(loadinterval)+" - "+str(loadduration)+" - "+str(loadtotal)+" - "+str(loadcurrent))
+
         self.Ping_Connection_Thread = PingConnection()
         self.Ping_Connection_Thread.start()
         self.Ping_Connection_Thread.finished.connect(lambda: self.ConnectionUIUpdate())       
@@ -332,6 +337,7 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
 
     def ConnectionUIUpdate(self):
         global LowerRunning,UpperRunning,running
+        slef.LoadData()
         for x in range(0, 10):
             if(LowerRunning[x]==1):
                 cmd = "self.Unit_%d_Label.setEnabled(True)"%x
@@ -414,12 +420,9 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
         else:
             self.Start_Imaging.setEnabled(True)
             self.Terminate_Imaging.setEnabled(False)
-        self.ConnectUpdate()
-
-
-            
         
-            
+
+        self.ConnectionTest()
             
     def Begin_Imaging(self):
         self.Imaging_Thread = StartImaging()
