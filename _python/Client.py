@@ -337,7 +337,7 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
 
     def ConnectionUIUpdate(self):
         global LowerRunning,UpperRunning,running
-        slef.LoadData()
+        self.LoadData()
         for x in range(0, 10):
             if(LowerRunning[x]==1):
                 cmd = "self.Unit_%d_Label.setEnabled(True)"%x
