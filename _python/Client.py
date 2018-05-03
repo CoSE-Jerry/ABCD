@@ -55,7 +55,7 @@ class DataHandshake(QThread):
                     s.send(str.encode("CURR"))
                     reply = s.recv(1024)
                     reply = reply.decode('utf-8')
-                    dataMessage = reply.split('-', 4)
+                    dataMessage = reply.split('-', 5)
                     print(reply)
                     
                     loadtitle = dataMessage[0]
@@ -81,8 +81,8 @@ class DataHandshake(QThread):
                     print(reply)
                     
                     loadtitle = dataMessage[0]
-                    loadinterval = dataMessage[1]
-                    loadduration = dataMessage[2]
+                    loadinterval = int(dataMessage[1])
+                    loadduration = int(dataMessage[2])
                     loadcurrent = int(dataMessage[3])
                     loadtotal = int(dataMessage[4])
                     if(len(loadtitle)>0):
@@ -137,7 +137,6 @@ class StartImaging(QThread):
                     print (reply.decode('utf-8'))
                     s.close()
                 except:
-                    print("CAM Command To: " + HOST+" FAILED")
                 sleep(2)
 
 class Livefeed(QThread):
@@ -326,7 +325,6 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
         try:
             self.LoadData_Thread = DataHandshake()
             self.LoadData.start()
-            self.LoadData.finished.connect(lambda: self.ConnectionTest())
             
         except:
             print("Load Data Handshake Failed")
@@ -356,8 +354,8 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
             self.Start_Live.setEnabled(True)
         
         self.IST_Editor.setText(loadtitle)
-        self.ICI_spinBox.setValue(int(loadinterval))
-        self.ISD_spinBox.setValue(int(loadduration))
+        self.ICI_spinBox.setValue(loadinterval)
+        self.ISD_spinBox.setValue(loadduration)
 
         self.Image_Bar.setMaximum(current+1)
         self.Image_Bar.setValue(loadtotal)
