@@ -1,4 +1,3 @@
-#this is a test
 import socket
 import subprocess
 import os
