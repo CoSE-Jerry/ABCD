@@ -273,6 +273,7 @@ class Ping(QThread):
 class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
 # access variables inside of the UI's fileb
     def Input_Validation(self):
+        global title, interval, duration, total
         title = self.IST_Editor.text()
         interval = self.ICI_spinBox.value()
         duration = self.ISD_spinBox.value()
