@@ -429,6 +429,7 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
     def Begin_Imaging(self):
         self.Imaging_Thread = StartImaging()
         self.Imaging_Thread.start()
+        print("Starting Imaging Sequence")
         self.StatusBar.setText("System Status: Initializing Sequence...")
         #sleep(5)
         #self.Update()
