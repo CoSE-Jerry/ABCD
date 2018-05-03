@@ -113,7 +113,7 @@ class StartImaging(QThread):
                 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 try:
                     s.connect((HOST,PORT))
-                    cmd = "CAM-"+title+"-"+str(interval)+"-"+str(duration)+"-"+email
+                    cmd = "CAM-"+title+"-"+str(interval)+"-"+str(duration)
                     s.send(str.encode(cmd))
                     reply = s.recv(1024)
                     print (reply.decode('utf-8'))
@@ -128,7 +128,7 @@ class StartImaging(QThread):
                 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 try:
                     s.connect((HOST,PORT))
-                    cmd = "CAM-"+title+"-"+str(interval)+"-"+str(duration)+"-"+email
+                    cmd = "CAM-"+title+"-"+str(interval)+"-"+str(duration)
                     s.send(str.encode(cmd))
                     reply = s.recv(1024)
                     print (reply.decode('utf-8'))
@@ -291,7 +291,7 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
             self.ISD_spinBox.setEnabled(False)
         if(interval!= 0):
             total = int(duration/interval)
-            if(total>0 and len(email)!=0):
+            if(total>0):
                 self.Start_Imaging.setEnabled(True)
             else:
                 self.Start_Imaging.setEnabled(False)
@@ -301,7 +301,7 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
         duration = self.ISD_spinBox.value()
         if(interval!= 0):
             total = int(duration/interval)
-            if(total>0 and len(email)!=0):
+            if(total>0):
                 self.Start_Imaging.setEnabled(True)
             else:
                 self.Start_Imaging.setEnabled(False)
@@ -428,7 +428,7 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
         self.Imaging_Thread = StartImaging()
         self.Imaging_Thread.start()
         self.StatusBar.setText("System Status: Initializing Sequence...")
-        sleep(1)
+        sleep(5)
         self.Update()
 
     def Stop_Imaging(self):
