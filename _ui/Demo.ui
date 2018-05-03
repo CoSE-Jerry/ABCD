@@ -610,6 +610,13 @@
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
+      <widget class="QPushButton" name="Reboot">
+       <property name="text">
+        <string>Reboot System</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="Start_Live">
        <property name="enabled">
         <bool>true</bool>
