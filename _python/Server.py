@@ -99,7 +99,7 @@ class CameraProgram:
             sleep(0.2)
             current_image = file % i
             with PiCamera() as camera:
-                print("image cap")
+                print("Image Captured")
                 sleep(0.8)
                 camera.resolution = (3280,2464)
                 camera._set_rotation(180)
