@@ -240,7 +240,7 @@ class Snap(QThread):
                 except:
                     print("Snapshot FAILED")
 
-            
+            sleep(1)            
 
 
 class QuitImaging(QThread):
