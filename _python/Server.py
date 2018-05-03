@@ -103,6 +103,7 @@ class CameraProgram:
 
     def run(self):
         global file_list, file,total,currentnum,terminate
+        sleep(5)
         get = os.popen('hostname -I').read()
         ip = get.split('.', 4)
         
