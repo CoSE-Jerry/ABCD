@@ -120,7 +120,7 @@ class StartImaging(QThread):
                     s.close()
                 except:
                     print("CAM Command To: " + HOST+" FAILED")
-                sleep(2)
+                sleep(1)
             
                     
             if(UpperRunning[x]==1):
@@ -137,7 +137,7 @@ class StartImaging(QThread):
                     s.close()
                 except:
                     print("CAM Command To: " + HOST+" FAILED")
-                sleep(2)
+                sleep(1)
 
 class Livefeed(QThread):
     
@@ -327,12 +327,12 @@ class Ping(QThread):
         UpperStat = [0] * 10
         for x in range(0, 10):
             hostname = "192.168.1.10" + str(x)
-            response = os.system("fping -c1 -t50 " + hostname)
+            response = os.system("fping -c1 -t100 " + hostname)
             if response == 0:
                 LowerStat[x]=1
 
             hostname = "192.168.1.20" + str(x)
-            response = os.system("fping -c1 -t50 " + hostname)
+            response = os.system("fping -c1 -t100 " + hostname)
             if response == 0:
                 UpperStat[x]=1
 
