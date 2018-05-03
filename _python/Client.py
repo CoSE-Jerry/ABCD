@@ -24,7 +24,6 @@ loadinterval=0
 loadduration=0
 loadtotal=0
 loadcurrent=0
-current=0
 running=False
 title=""
 loadtitle=""
@@ -358,18 +357,18 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
         self.ICI_spinBox.setValue(loadinterval)
         self.ISD_spinBox.setValue(loadduration)
 
-        self.Image_Bar.setMaximum(current+1)
-        self.Image_Bar.setValue(loadtotal)
+        self.Image_Bar.setMaximum(loadtotal)
+        self.Image_Bar.setValue(loadcurrent)
 
-        if(current==loadtotal):
+        if(loadcurrent==loadtotal):
             running=False
             self.StatusBar.setText("System Status: Idle...")
-        elif(current-1==loadtotal):
+        elif(loadcurrent-1==loadtotal):
             running=False
             self.StatusBar.setText("System Status: Imaging Complete")
         else:
             running=True
-            self.StatusBar.setText("System Status: Imaging... %d/%d"%(loadtotal,current))
+            self.StatusBar.setText("System Status: Imaging... %d/%d"%(loadtotal,loadcurrent))
         if(running):
             self.Start_Imaging.setEnabled(False)
             self.Terminate_Imaging.setEnabled(True)
