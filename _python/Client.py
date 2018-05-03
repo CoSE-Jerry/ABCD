@@ -115,6 +115,7 @@ class StartImaging(QThread):
                     s.connect((HOST,PORT))
                     cmd = "CAM-"+title+"-"+str(interval)+"-"+str(duration)
                     s.send(str.encode(cmd))
+                    print("CAM Command Sent to: " + HOST)
                     reply = s.recv(1024)
                     print (reply.decode('utf-8'))
                     s.close()
@@ -130,6 +131,7 @@ class StartImaging(QThread):
                     s.connect((HOST,PORT))
                     cmd = "CAM-"+title+"-"+str(interval)+"-"+str(duration)
                     s.send(str.encode(cmd))
+                    print("CAM Command Sent to: " + HOST)
                     reply = s.recv(1024)
                     print (reply.decode('utf-8'))
                     s.close()
@@ -428,8 +430,8 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
         self.Imaging_Thread = StartImaging()
         self.Imaging_Thread.start()
         self.StatusBar.setText("System Status: Initializing Sequence...")
-        sleep(5)
-        self.Update()
+        #sleep(5)
+        #self.Update()
 
     def Stop_Imaging(self):
         self.Stop_Imaging_Thread = QuitImaging()
