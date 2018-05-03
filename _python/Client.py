@@ -328,7 +328,7 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
         if(loadcurrent==loadtotal):
             running=False
             self.StatusBar.setText("System Status: Idle...")
-        elif(loadcurrent-1==loadtotal):
+        elif(loadcurrent+1==loadtotal):
             running=False
             self.StatusBar.setText("System Status: Imaging Complete")
         else:
