@@ -335,7 +335,7 @@ class Ping(QThread):
                 LowerStat[x]=1
 
             hostname = "192.168.1.20" + str(x)
-            response = os.system("fping -c1 -t100 " + hostname)
+            response = os.system("fping -c1 -t500 " + hostname)
             if response == 0:
                 UpperStat[x]=1
 
