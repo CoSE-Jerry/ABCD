@@ -68,7 +68,7 @@ def dataTransfer(conn):
             with PiCamera() as camera:
                 camera._set_rotation(180)
                 camera.resolution = (1920,1080)
-                camera.zoom = (0.3, 0.3, 0.3, 0.3)
+                camera.zoom = (0.5, 0.5, 0.5, 0.5)
                 camera.start_preview()
                 sleep(60)
             
