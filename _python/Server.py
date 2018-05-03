@@ -11,6 +11,7 @@ port = 5560
 title = ''
 file=''
 link=''
+reply=''
 currentnum = 0
 interval = 0
 duration = 0
@@ -34,7 +35,7 @@ def setupConnection():
     return conn
 
 def dataTransfer(conn):
-    global interval, duration, title,terminate
+    global interval, duration, title,terminate,reply,currentnum
     # A big loop that sends/receives data until told not to.
     while True:
         # Receive the data
@@ -70,11 +71,13 @@ def dataTransfer(conn):
                 camera.resolution = (1640,1232)
                 camera.start_preview()
                 sleep(60)
-            reply = "done"
             
         elif command == 'QUIT':
+            title = ''
+            currentnum = 0
+            interval = 0
+            duration = 0
             terminate=True;
-            reply = "killed"
             
         else:
             reply = 'Unknown Command'
@@ -113,10 +116,7 @@ class CameraProgram:
             if(terminate):
                 break
         if(terminate):
-            print("killed")
             terminate=False
-            currentnum=0
-            total=0
 
 class DropboxProgram:  
     def __init__(self):

@@ -197,7 +197,7 @@ class QuitImaging(QThread):
                     s.send(str.encode(cmd))
                     s.close()
                 except:
-                    print("nope")
+                    print("Termination FAILED")
                     
             if(UpperRunning[x]==1):
                 HOST="192.168.1.20"+str(x)
@@ -209,7 +209,7 @@ class QuitImaging(QThread):
                     s.send(str.encode(cmd))
                     s.close()
                 except:
-                    print("nope")
+                    print("Termination FAILED")
 
 class PingConnection(QThread):
     
@@ -342,7 +342,7 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
         self.ISD_spinBox.setValue(loadduration)
 
         self.Image_Bar.setMaximum(loadtotal)
-        self.Image_Bar.setValue(loadcurrent)
+        self.Image_Bar.setValue(loadcurrent+1)
 
         if(loadcurrent==loadtotal):
             running=False
