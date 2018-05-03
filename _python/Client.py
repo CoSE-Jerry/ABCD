@@ -120,8 +120,9 @@ class StartImaging(QThread):
                     print (reply.decode('utf-8'))
                     s.close()
                 except:
-                    print("nope")
-            sleep(2)
+                    print("CAM Command To: " + HOST+" FAILED")
+                sleep(2)
+            
                     
             if(UpperRunning[x]==1):
                 HOST="192.168.1.20"+str(x)
@@ -136,8 +137,8 @@ class StartImaging(QThread):
                     print (reply.decode('utf-8'))
                     s.close()
                 except:
-                    print("nope")
-            sleep(2)
+                    print("CAM Command To: " + HOST+" FAILED")
+                sleep(2)
 
 class Livefeed(QThread):
     
