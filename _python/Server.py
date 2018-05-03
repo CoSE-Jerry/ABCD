@@ -69,8 +69,8 @@ def dataTransfer(conn):
                 camera._set_rotation(180)
                 camera.resolution = (1640,1232)
                 camera.start_preview()
-                sleep(10)
-            reply = "Performing Live Feed"
+                sleep(60)
+            reply = "done"
             
         elif command == 'QUIT':
             terminate=True;
@@ -101,7 +101,7 @@ class CameraProgram:
             with PiCamera() as camera:
                 print("Image Captured")
                 sleep(0.8)
-                camera.resolution = (3280,2464)
+                #camera.resolution = (3280,2464)
                 camera._set_rotation(180)
                 camera.capture(current_image)
             file_list.append(current_image)
