@@ -35,7 +35,7 @@ def setupConnection():
     return conn
 
 def dataTransfer(conn):
-    global interval, duration, title,terminate,reply,currentnum
+    global interval, duration, title,terminate,reply,currentnum,total
     # A big loop that sends/receives data until told not to.
     while True:
         # Receive the data
@@ -73,10 +73,8 @@ def dataTransfer(conn):
                 sleep(60)
             
         elif command == 'QUIT':
-            title = ''
             currentnum = 0
-            interval = 0
-            duration = 0
+            total = 0
             terminate=True;
             
         else:

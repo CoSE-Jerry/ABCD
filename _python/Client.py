@@ -360,7 +360,6 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
             self.ICI_spinBox.setEnabled(False)
             self.ISD_spinBox.setEnabled(False)
         else:
-            self.Start_Imaging.setEnabled(True)
             self.Terminate_Imaging.setEnabled(False)
             self.IST_Editor.setEnabled(True)
             
