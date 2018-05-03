@@ -69,8 +69,8 @@ def dataTransfer(conn):
                 camera._set_rotation(180)
                 camera.resolution = (1640,1232)
                 camera.start_preview()
-                sleep(60)
-            reply = "done"
+                sleep(10)
+            reply = "Performing Live Feed"
             
         elif command == 'QUIT':
             terminate=True;
