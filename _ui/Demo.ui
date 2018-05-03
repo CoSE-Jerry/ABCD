@@ -570,8 +570,8 @@
    <widget class="QLabel" name="Upper_Bay_Label">
     <property name="geometry">
      <rect>
-      <x>580</x>
-      <y>190</y>
+      <x>570</x>
+      <y>200</y>
       <width>111</width>
       <height>21</height>
      </rect>
@@ -586,8 +586,8 @@
    <widget class="QLabel" name="Lower_Bay_Label">
     <property name="geometry">
      <rect>
-      <x>580</x>
-      <y>390</y>
+      <x>570</x>
+      <y>395</y>
       <width>111</width>
       <height>21</height>
      </rect>
