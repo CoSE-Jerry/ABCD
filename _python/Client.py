@@ -321,10 +321,10 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
         self.IST_Editor.setText(loadtitle)
         self.ICI_spinBox.setValue(loadinterval)
         self.ISD_spinBox.setValue(loadduration)
-        if(loadtotal==0)
+        if(loadtotal==0):
             self.Image_Bar.setMaximum(loadtotal+1)
-        else
-            self.Image_Bar.setMaximum(loadtotal)
+        else:
+            self.Image_Bar.setMaximum(loadtotal-1)
         self.Image_Bar.setValue(loadcurrent)
 
         if(loadcurrent==loadtotal):
