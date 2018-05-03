@@ -484,8 +484,6 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
         self.Imaging_Thread.start()
         print("Starting Imaging Sequence")
         self.StatusBar.setText("System Status: Initializing Sequence...")
-        sleep(5)
-        self.Update()
 
     def Stop_Imaging(self):
         self.Stop_Imaging_Thread = QuitImaging()
