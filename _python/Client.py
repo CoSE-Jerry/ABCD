@@ -325,29 +325,12 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
         try:
             self.LoadData_Thread = DataHandshake()
             self.LoadData_Thread.start()
+            self.LoadData_Thread.finished.connect(lambda: self.DisplayData()) 
             
         except:
             print("Load Data Handshake Failed")
-            
-    def ConnectionTest(self):
 
-        self.Ping_Connection_Thread = PingConnection()
-        self.Ping_Connection_Thread.start()
-        self.Ping_Connection_Thread.finished.connect(lambda: self.ConnectionUIUpdate())       
-
-
-    def ConnectionUIUpdate(self):
-        global LowerRunning,UpperRunning,running
-        self.LoadData()
-        for x in range(0, 10):
-            if(LowerRunning[x]==1):
-                cmd = "self.Unit_%d_Label.setEnabled(True)"%x
-                exec(cmd)
-        for x in range(0, 10):
-            xmod=x+10
-            if(UpperRunning[x]==1):
-                cmd = "self.Unit_%d_Label.setEnabled(True)"%xmod
-                exec(cmd)
+    def DisplayData(self):
         if(running):
             self.Start_Live.setEnabled(False)
         else:
@@ -379,6 +362,27 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
             self.Start_Imaging.setEnabled(True)
             self.Terminate_Imaging.setEnabled(False)
             self.IST_Editor.setEnabled(True)
+            
+            
+    def ConnectionTest(self):
+
+        self.Ping_Connection_Thread = PingConnection()
+        self.Ping_Connection_Thread.start()
+        self.Ping_Connection_Thread.finished.connect(lambda: self.ConnectionUIUpdate())       
+
+
+    def ConnectionUIUpdate(self):
+        global LowerRunning,UpperRunning
+        self.LoadData()
+        for x in range(0, 10):
+            if(LowerRunning[x]==1):
+                cmd = "self.Unit_%d_Label.setEnabled(True)"%x
+                exec(cmd)
+        for x in range(0, 10):
+            xmod=x+10
+            if(UpperRunning[x]==1):
+                cmd = "self.Unit_%d_Label.setEnabled(True)"%xmod
+                exec(cmd)
 
     def PingUIUpdate(self):
         for x in range(0, 10):
