@@ -106,7 +106,7 @@ class CameraProgram:
         ip = get.split('.', 4)
         
         total = int(duration/interval)
-        file = "/home/pi/ABCD/_temp/" +title +"_ip[3].strip()"+ "_%04d.jpg"
+        file = "/home/pi/ABCD/_temp/" +title +"_"ip[3].strip()+ "_%04d.jpg"
         for i in range(total):
             currentnum = i
             sleep(0.2)
