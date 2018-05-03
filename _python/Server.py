@@ -102,8 +102,11 @@ class CameraProgram:
 
     def run(self):
         global file_list, file,total,currentnum,terminate
+        get = os.popen('hostname -I').read()
+        ip = get.split('.', 4)
+        
         total = int((duration*60)/interval)
-        file = "/home/pi/ABCD/_temp/" +title + "_%04d.jpg"
+        file = "/home/pi/ABCD/_temp/" +title +"_ip[3].strip()"+ "_%04d.jpg"
         for i in range(total):
             currentnum = i
             sleep(0.2)
@@ -147,7 +150,7 @@ class DropboxProgram:
                 os.system("rm " + file_list[0])
                 del file_list[0]
                 
-class SnapShot:  
+class SnapShotProgram:  
     def __init__(self):
         self._running = True
 
@@ -161,7 +164,7 @@ class SnapShot:
 
         with PiCamera() as camera:
             sleep(0.8)
-            camera.resolution = (3200,2460)
+            camera.resolution = (2464,2464)
             camera._set_rotation(180)
             camera.capture(file)
         os.system("/home/pi/Dropbox-Uploader/dropbox_uploader.sh mkdir /ABCD/Snapshot")
