@@ -627,9 +627,9 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="Test_Capture">
+      <widget class="QPushButton" name="Snap_it">
        <property name="text">
-        <string>Test Capture</string>
+        <string>Snap Shot</string>
        </property>
       </widget>
      </item>

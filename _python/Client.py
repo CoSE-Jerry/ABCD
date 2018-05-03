@@ -159,7 +159,7 @@ class Livefeed(QThread):
                     s.send(str.encode(cmd))
                     s.close()
                 except:
-                    print("nope")
+                    print("Livefeed FAILED")
                     
             if(UpperRunning[x]==1):
                 HOST="192.168.1.20"+str(x)
@@ -170,8 +170,75 @@ class Livefeed(QThread):
                     s.send(str.encode(cmd))
                     s.close()
                 except:
-                    print("nope")
+                    print("Livefeed FAILED")
         sleep(60)
+
+class Restart(QThread):
+    
+    def __init__(self):
+        QThread.__init__(self)
+
+    def __del__(self):
+        self._running = False
+
+    def run(self):
+
+        for x in range(0, 10):
+            if(LowerRunning[x]==1):
+                HOST="192.168.1.10"+str(x)
+                s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                try:
+                    s.connect((HOST,PORT))
+                    cmd = "REBOOT"
+                    s.send(str.encode(cmd))
+                    s.close()
+                except:
+                    print("Reboot FAILED")
+                    
+            if(UpperRunning[x]==1):
+                HOST="192.168.1.20"+str(x)
+                s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                try:
+                    s.connect((HOST,PORT))
+                    cmd = "REBOOT"
+                    s.send(str.encode(cmd))
+                    s.close()
+                except:
+                    print("Reboot FAILED")
+        sleep(60)
+
+class Snap(QThread):
+    
+    def __init__(self):
+        QThread.__init__(self)
+
+    def __del__(self):
+        self._running = False
+
+    def run(self):
+
+        for x in range(0, 10):
+            if(LowerRunning[x]==1):
+                HOST="192.168.1.10"+str(x)
+                s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                try:
+                    s.connect((HOST,PORT))
+                    cmd = "SNAP"
+                    s.send(str.encode(cmd))
+                    s.close()
+                except:
+                    print("Snapshot FAILED")
+                    
+            if(UpperRunning[x]==1):
+                HOST="192.168.1.20"+str(x)
+                s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                try:
+                    s.connect((HOST,PORT))
+                    cmd = "SNAP"
+                    s.send(str.encode(cmd))
+                    s.close()
+                except:
+                    print("Snapshot FAILED")
 
             
 
@@ -442,6 +509,15 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
         running=False
         self.Start_Live.setEnabled(True)
         self.Start_Imaging.setEnabled(True)
+
+    def Reboot_All(self):
+        self.Reboot_Thread = Restart()
+        self.Reboot_Thread.start()
+
+    def Take_Snapshot(self):
+        self.Snapshot_Thread = Snap()
+        self.Snapshot_Thread.start()
+        
         
         
     def __init__(self):
@@ -458,6 +534,8 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
         self.Start_Imaging.clicked.connect(lambda: self.Begin_Imaging())
         self.Terminate_Imaging.clicked.connect(lambda: self.Stop_Imaging())
         self.Start_Live.clicked.connect(lambda: self.Start_Livefed())
+        self.Reboot.clicked.connect(lambda: self.Reboot_All())
+        self.Snap_it.clicked.connect(lambda: self.Take_Snapshot())
         
         
 

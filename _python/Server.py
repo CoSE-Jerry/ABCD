@@ -10,7 +10,6 @@ host = ''
 port = 5560
 title = ''
 file=''
-link=''
 reply=''
 currentnum = 0
 interval = 0
@@ -76,6 +75,16 @@ def dataTransfer(conn):
             currentnum = 0
             total = 0
             terminate=True;
+
+        elif command == 'REBOOT':
+            os.system("sudo reboot")
+            
+        elif command == 'SNAP':
+            SnapShot = SnapShotProgram()
+            #Create Thread
+            SnapShotThread = Thread(target=SnapShot.run) 
+            #Start Thread 
+            SnapShotThread.start()
             
         else:
             reply = 'Unknown Command'
@@ -102,7 +111,7 @@ class CameraProgram:
             with PiCamera() as camera:
                 print("Image Captured")
                 sleep(0.8)
-                #camera.resolution = (3280,2464)
+                camera.resolution = (2464,2464)
                 camera._set_rotation(180)
                 camera.capture(current_image)
             file_list.append(current_image)
@@ -127,20 +136,37 @@ class DropboxProgram:
         get = os.popen('hostname -I').read()
         ip = get.split('.', 4)
         
-        global file_list, title, link
+        
+        global file_list, title
         os.system("/home/pi/Dropbox-Uploader/dropbox_uploader.sh mkdir /ABCD/" + title)
         os.system("/home/pi/Dropbox-Uploader/dropbox_uploader.sh mkdir /ABCD/" + title+"/"+ip[3].strip())
-        temp = "/home/pi/Dropbox-Uploader/dropbox_uploader.sh share /ABCD/" + title+"/"+ip[3].strip()
-        link = str(subprocess.check_output(temp, shell=True))
-        link = link.replace("b' > ", "")
-        link = link.split("\\")[0]
         
         while (terminate==False):
             if (len(file_list) > 0):
                 os.system("/home/pi/Dropbox-Uploader/dropbox_uploader.sh upload " + file_list[0] + " /ABCD/"+title+"/"+ip[3].strip())
                 os.system("rm " + file_list[0])
                 del file_list[0]
-            
+                
+class SnapShot:  
+    def __init__(self):
+        self._running = True
+
+    def terminate(self):  
+        self._running = False  
+
+    def run(self):
+        get = os.popen('hostname -I').read()
+        ip = get.split('.', 4)
+        file = "/home/pi/ABCD/_temp/Snap_"+ip[3].strip()+".jpg"
+
+        with PiCamera() as camera:
+            sleep(0.8)
+            camera.resolution = (3200,2460)
+            camera._set_rotation(180)
+            camera.capture(file)
+        os.system("/home/pi/Dropbox-Uploader/dropbox_uploader.sh mkdir /ABCD/Snapshot")
+        os.system("/home/pi/Dropbox-Uploader/dropbox_uploader.sh upload " + file + " /ABCD/Snapshot/")
+                
 
 s = setupServer()
 
