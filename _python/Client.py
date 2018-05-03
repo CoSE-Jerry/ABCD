@@ -226,6 +226,8 @@ class Snap(QThread):
                     cmd = "SNAP"
                     s.send(str.encode(cmd))
                     s.close()
+
+                    print("Sending SNAP command to "+HOST)
                 except:
                     print("Snapshot FAILED")
                     
@@ -237,6 +239,7 @@ class Snap(QThread):
                     cmd = "SNAP"
                     s.send(str.encode(cmd))
                     s.close()
+                    print("Sending SNAP command to "+HOST)
                 except:
                     print("Snapshot FAILED")
 
