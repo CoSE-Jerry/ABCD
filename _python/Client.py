@@ -353,9 +353,6 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
             self.Start_Live.setEnabled(False)
         else:
             self.Start_Live.setEnabled(True)
-            
-        LowerRunning = [0] * 10
-        UpperRunning = [0] * 10
         
         self.IST_Editor.setText(loadtitle)
         self.ICI_spinBox.setValue(int(loadinterval))
