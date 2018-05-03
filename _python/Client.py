@@ -332,10 +332,6 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
 
     def DisplayData(self):
         global running
-        if(running):
-            self.Start_Live.setEnabled(False)
-        else:
-            self.Start_Live.setEnabled(True)
         
         self.IST_Editor.setText(loadtitle)
         self.ICI_spinBox.setValue(loadinterval)
@@ -359,9 +355,12 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
             self.IST_Editor.setEnabled(False)
             self.ICI_spinBox.setEnabled(False)
             self.ISD_spinBox.setEnabled(False)
+            self.Start_Live.setEnabled(False)
+            
         else:
             self.Terminate_Imaging.setEnabled(False)
             self.IST_Editor.setEnabled(True)
+            self.Start_Live.setEnabled(True)
             
             
     def ConnectionTest(self):
