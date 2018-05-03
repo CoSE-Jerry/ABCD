@@ -90,9 +90,9 @@ class DataHandshake(QThread):
                     s.close()
                 except:
                     print("CURR Command Failed")
-        if(len(loadtitle)>0)
+        if(len(loadtitle)>0):
             print("Loaded Data: "+loadtitle+" - "+str(loadinterval)+" - "+str(loadduration)+" - "+str(loadtotal)+" - "+str(loadcurrent))
-        else
+        else:
             print("No Data Loaded")
             
 
