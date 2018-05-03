@@ -18,8 +18,8 @@ LowerStat = [0] * 10
 UpperRunning = [0] * 10
 LowerRunning = [0] * 10
 
-interval=0
-duration=0
+interval=1
+duration=1
 loadinterval=0
 loadduration=0
 loadtotal=0
@@ -271,42 +271,26 @@ class Ping(QThread):
 
 # create class for our Raspberry Pi GUI
 class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
-# access variables inside of the UI's file
-    def IST_Edit(self):
-        global title
+# access variables inside of the UI's fileb
+    def Input_Validation(self):
         title = self.IST_Editor.text()
-        print(title)
-        
-    def IST_Change(self):
-        
-        self.ICI_spinBox.setEnabled(True)
-        if(len(self.IST_Editor.text())==0):
+        interval = self.ICI_spinBox.value()
+        duration = self.ISD_spinBox.value()
+        total = int(duration/interval)
+
+        if(len(title)==0):
             self.ICI_spinBox.setEnabled(False)
             self.ISD_spinBox.setEnabled(False)
             self.Start_Imaging.setEnabled(False)
-
-    def ICI_Change(self):
-        global interval, total
-        interval = self.ICI_spinBox.value()
-        self.ISD_spinBox.setEnabled(True)
-        if(interval == 0):
-            self.ISD_spinBox.setEnabled(False)
-        if(interval!= 0):
-            total = int(duration/interval)
-            if(total>0):
-                self.Start_Imaging.setEnabled(True)
-            else:
-                self.Start_Imaging.setEnabled(False)
-                
-    def ISD_Change(self):
-        global duration, total
-        duration = self.ISD_spinBox.value()
-        if(interval!= 0):
-            total = int(duration/interval)
-            if(total>0):
-                self.Start_Imaging.setEnabled(True)
-            else:
-                self.Start_Imaging.setEnabled(False)
+        else:
+            self.ICI_spinBox.setEnabled(True)
+            self.ISD_spinBox.setEnabled(True)
+        
+        if(total>1):
+            self.Start_Imaging.setEnabled(True)
+        else:
+            self.Start_Imaging.setEnabled(False)
+    
 
     def Update(self):
         self.Update_Status.setText("Updating Status...")
@@ -464,10 +448,10 @@ class MainWindow(QMainWindow, ABCD_UI.Ui_Demo):
         self.Update()
         
         self.Update_Status.clicked.connect(lambda: self.Update())
-        self.IST_Editor.editingFinished.connect(lambda: self.IST_Edit())
-        self.IST_Editor.textChanged.connect(lambda: self.IST_Change())
-        self.ICI_spinBox.valueChanged.connect(lambda: self.ICI_Change())
-        self.ISD_spinBox.valueChanged.connect(lambda: self.ISD_Change())
+        self.IST_Editor.editingFinished.connect(lambda: self.Input_Validation())
+        self.IST_Editor.textChanged.connect(lambda: self.Input_Validation())
+        self.ICI_spinBox.valueChanged.connect(lambda: self.Input_Validation())
+        self.ISD_spinBox.valueChanged.connect(lambda: self.Input_Validation())
         self.Start_Imaging.clicked.connect(lambda: self.Begin_Imaging())
         self.Terminate_Imaging.clicked.connect(lambda: self.Stop_Imaging())
         self.Start_Live.clicked.connect(lambda: self.Start_Livefed())
