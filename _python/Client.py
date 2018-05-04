@@ -120,7 +120,7 @@ class StartImaging(QThread):
                     s.close()
                 except:
                     print("CAM Command To: " + HOST+" FAILED")
-                sleep(1)
+                sleep(2)
             
                     
             if(UpperRunning[x]==1):
@@ -137,7 +137,7 @@ class StartImaging(QThread):
                     s.close()
                 except:
                     print("CAM Command To: " + HOST+" FAILED")
-                sleep(1)
+                sleep(2)
 
 class Livefeed(QThread):
     
