@@ -67,8 +67,8 @@ def dataTransfer(conn):
         elif command == 'LIVE':
             with PiCamera() as camera:
                 camera._set_rotation(180)
-                camera.resolution = (1920,1080)
-                camera.zoom = (0.3, 0.3, 0.3, 0.3)
+                camera.resolution = (1080,1080)
+                #camera.zoom = (0.3, 0.3, 0.3, 0.3)
                 camera.start_preview()
                 sleep(60)
             
